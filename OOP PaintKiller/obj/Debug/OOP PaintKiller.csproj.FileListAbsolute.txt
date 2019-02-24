@@ -1,0 +1,9 @@
+E:\Папка-шляпка\4 сем\ООТПиСП\OOP PaintKiller\OOP PaintKiller\bin\Debug\OOP PaintKiller.exe.config
+E:\Папка-шляпка\4 сем\ООТПиСП\OOP PaintKiller\OOP PaintKiller\bin\Debug\OOP PaintKiller.exe
+E:\Папка-шляпка\4 сем\ООТПиСП\OOP PaintKiller\OOP PaintKiller\bin\Debug\OOP PaintKiller.pdb
+E:\Папка-шляпка\4 сем\ООТПиСП\OOP PaintKiller\OOP PaintKiller\obj\Debug\OOP PaintKiller.csprojAssemblyReference.cache
+E:\Папка-шляпка\4 сем\ООТПиСП\OOP PaintKiller\OOP PaintKiller\obj\Debug\OOP_PaintKiller.Properties.Resources.resources
+E:\Папка-шляпка\4 сем\ООТПиСП\OOP PaintKiller\OOP PaintKiller\obj\Debug\OOP PaintKiller.csproj.GenerateResource.cache
+E:\Папка-шляпка\4 сем\ООТПиСП\OOP PaintKiller\OOP PaintKiller\obj\Debug\OOP PaintKiller.csproj.CoreCompileInputs.cache
+E:\Папка-шляпка\4 сем\ООТПиСП\OOP PaintKiller\OOP PaintKiller\obj\Debug\OOP PaintKiller.exe
+E:\Папка-шляпка\4 сем\ООТПиСП\OOP PaintKiller\OOP PaintKiller\obj\Debug\OOP PaintKiller.pdb
