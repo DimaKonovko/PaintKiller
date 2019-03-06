@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Drawing;
 
 namespace OOP_PaintKiller
 {
@@ -11,14 +11,17 @@ namespace OOP_PaintKiller
 
 		public Line() { }
 
-		public Line(int leftX, int leftY, int rightX, int rightY)
+		public override void SetCoord(int startX, int startY, int endX, int endY)
 		{
-			LeftX = leftX;
-			LeftY = leftY;
-			RightX = rightX;
-			RightY = rightY;
+			LeftX = startX;
+			LeftY = startY;
+			RightX = endX;
+			RightY = endY;
 		}
 
-		public override void Draw()	{	}
+		public override void Draw(Graphics grph, Pen pen)
+		{
+			grph.DrawLine(pen, LeftX, LeftY, RightX, RightY);
+		}
 	}
 }

@@ -7,3 +7,13 @@ E:\Папка-шляпка\4 сем\ООТПиСП\OOP PaintKiller\OOP PaintKill
 E:\Папка-шляпка\4 сем\ООТПиСП\OOP PaintKiller\OOP PaintKiller\obj\Debug\OOP PaintKiller.csproj.CoreCompileInputs.cache
 E:\Папка-шляпка\4 сем\ООТПиСП\OOP PaintKiller\OOP PaintKiller\obj\Debug\OOP PaintKiller.exe
 E:\Папка-шляпка\4 сем\ООТПиСП\OOP PaintKiller\OOP PaintKiller\obj\Debug\OOP PaintKiller.pdb
+E:\GitHub\PaintKiller\OOP PaintKiller\bin\Debug\OOP PaintKiller.exe.config
+E:\GitHub\PaintKiller\OOP PaintKiller\bin\Debug\OOP PaintKiller.exe
+E:\GitHub\PaintKiller\OOP PaintKiller\bin\Debug\OOP PaintKiller.pdb
+E:\GitHub\PaintKiller\OOP PaintKiller\obj\Debug\OOP PaintKiller.csprojAssemblyReference.cache
+E:\GitHub\PaintKiller\OOP PaintKiller\obj\Debug\OOP_PaintKiller.Properties.Resources.resources
+E:\GitHub\PaintKiller\OOP PaintKiller\obj\Debug\OOP PaintKiller.csproj.GenerateResource.cache
+E:\GitHub\PaintKiller\OOP PaintKiller\obj\Debug\OOP PaintKiller.csproj.CoreCompileInputs.cache
+E:\GitHub\PaintKiller\OOP PaintKiller\obj\Debug\OOP PaintKiller.exe
+E:\GitHub\PaintKiller\OOP PaintKiller\obj\Debug\OOP PaintKiller.pdb
+E:\GitHub\PaintKiller\OOP PaintKiller\obj\Debug\OOP_PaintKiller.MainForm.resources

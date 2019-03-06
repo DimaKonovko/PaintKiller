@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Drawing;
 
 namespace OOP_PaintKiller
 {
@@ -13,16 +13,21 @@ namespace OOP_PaintKiller
 
 		public Treangle() { }
 
-		public Treangle(int leftX, int leftY, int topX, int topY, int rightX, int rightY)
+		public override void SetCoord(int startX, int startY, int endX, int endY)
 		{
-			LeftX = leftX;
-			LeftY = leftY;
-			TopX = topX;
-			TopY = topY;
-			RightX = rightX;
-			RightY = rightY;
+			LeftX = startX;
+			LeftY = endY;
+			TopX =  startX + (endX - startX) / 2;
+			TopY = startY;
+			RightX = endX;
+			RightY = endY;
 		}
 
-		public override void Draw() { }
+		public override void Draw(Graphics grph, Pen pen)
+		{
+			grph.DrawLine(pen, LeftX, LeftY, TopX, TopY);
+			grph.DrawLine(pen, TopX, TopY, RightX, RightY);
+			grph.DrawLine(pen, RightX, RightY, LeftX, LeftY);
+		}
 	}
 }

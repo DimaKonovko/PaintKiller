@@ -1,6 +1,6 @@
 ﻿namespace OOP_PaintKiller
 {
-	partial class Form1
+	partial class MainForm
 	{
 		/// <summary>
 		/// Обязательная переменная конструктора.
@@ -28,13 +28,89 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
+			this.pictureBox = new System.Windows.Forms.PictureBox();
+			this.btnCircle = new System.Windows.Forms.Button();
+			this.btnLine = new System.Windows.Forms.Button();
+			this.btnRectangle = new System.Windows.Forms.Button();
+			this.btnTreangle = new System.Windows.Forms.Button();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+			this.SuspendLayout();
+			// 
+			// pictureBox
+			// 
+			this.pictureBox.BackColor = System.Drawing.SystemColors.AppWorkspace;
+			this.pictureBox.Location = new System.Drawing.Point(12, 80);
+			this.pictureBox.Name = "pictureBox";
+			this.pictureBox.Size = new System.Drawing.Size(722, 352);
+			this.pictureBox.TabIndex = 0;
+			this.pictureBox.TabStop = false;
+			this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+			this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
+			// 
+			// btnCircle
+			// 
+			this.btnCircle.Location = new System.Drawing.Point(45, 28);
+			this.btnCircle.Name = "btnCircle";
+			this.btnCircle.Size = new System.Drawing.Size(75, 23);
+			this.btnCircle.TabIndex = 1;
+			this.btnCircle.Text = "Circle";
+			this.btnCircle.UseVisualStyleBackColor = true;
+			this.btnCircle.Click += new System.EventHandler(this.btnCircle_Click);
+			// 
+			// btnLine
+			// 
+			this.btnLine.Location = new System.Drawing.Point(161, 28);
+			this.btnLine.Name = "btnLine";
+			this.btnLine.Size = new System.Drawing.Size(75, 23);
+			this.btnLine.TabIndex = 2;
+			this.btnLine.Text = "Line";
+			this.btnLine.UseVisualStyleBackColor = true;
+			this.btnLine.Click += new System.EventHandler(this.btnLine_Click);
+			// 
+			// btnRectangle
+			// 
+			this.btnRectangle.Location = new System.Drawing.Point(272, 28);
+			this.btnRectangle.Name = "btnRectangle";
+			this.btnRectangle.Size = new System.Drawing.Size(75, 23);
+			this.btnRectangle.TabIndex = 3;
+			this.btnRectangle.Text = "Rectangle";
+			this.btnRectangle.UseVisualStyleBackColor = true;
+			this.btnRectangle.Click += new System.EventHandler(this.btnRectangle_Click);
+			// 
+			// btnTreangle
+			// 
+			this.btnTreangle.Location = new System.Drawing.Point(382, 28);
+			this.btnTreangle.Name = "btnTreangle";
+			this.btnTreangle.Size = new System.Drawing.Size(75, 23);
+			this.btnTreangle.TabIndex = 4;
+			this.btnTreangle.Text = "Treangle";
+			this.btnTreangle.UseVisualStyleBackColor = true;
+			this.btnTreangle.Click += new System.EventHandler(this.btnTreangle_Click);
+			// 
+			// MainForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.ClientSize = new System.Drawing.Size(746, 444);
+			this.Controls.Add(this.btnTreangle);
+			this.Controls.Add(this.btnRectangle);
+			this.Controls.Add(this.btnLine);
+			this.Controls.Add(this.btnCircle);
+			this.Controls.Add(this.pictureBox);
+			this.Name = "MainForm";
 			this.Text = "Form1";
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+			this.ResumeLayout(false);
+
 		}
 
 		#endregion
+
+		private System.Windows.Forms.PictureBox pictureBox;
+		private System.Windows.Forms.Button btnCircle;
+		private System.Windows.Forms.Button btnLine;
+		private System.Windows.Forms.Button btnRectangle;
+		private System.Windows.Forms.Button btnTreangle;
 	}
 }
 
