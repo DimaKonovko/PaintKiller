@@ -38,10 +38,10 @@
 			// 
 			// pictureBox
 			// 
-			this.pictureBox.BackColor = System.Drawing.SystemColors.AppWorkspace;
-			this.pictureBox.Location = new System.Drawing.Point(12, 80);
+			this.pictureBox.BackColor = System.Drawing.Color.Snow;
+			this.pictureBox.Location = new System.Drawing.Point(106, 12);
 			this.pictureBox.Name = "pictureBox";
-			this.pictureBox.Size = new System.Drawing.Size(722, 352);
+			this.pictureBox.Size = new System.Drawing.Size(877, 583);
 			this.pictureBox.TabIndex = 0;
 			this.pictureBox.TabStop = false;
 			this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
@@ -49,9 +49,10 @@
 			// 
 			// btnCircle
 			// 
-			this.btnCircle.Location = new System.Drawing.Point(45, 28);
+			this.btnCircle.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnCircle.Location = new System.Drawing.Point(12, 12);
 			this.btnCircle.Name = "btnCircle";
-			this.btnCircle.Size = new System.Drawing.Size(75, 23);
+			this.btnCircle.Size = new System.Drawing.Size(75, 50);
 			this.btnCircle.TabIndex = 1;
 			this.btnCircle.Text = "Circle";
 			this.btnCircle.UseVisualStyleBackColor = true;
@@ -59,9 +60,10 @@
 			// 
 			// btnLine
 			// 
-			this.btnLine.Location = new System.Drawing.Point(161, 28);
+			this.btnLine.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnLine.Location = new System.Drawing.Point(12, 68);
 			this.btnLine.Name = "btnLine";
-			this.btnLine.Size = new System.Drawing.Size(75, 23);
+			this.btnLine.Size = new System.Drawing.Size(75, 50);
 			this.btnLine.TabIndex = 2;
 			this.btnLine.Text = "Line";
 			this.btnLine.UseVisualStyleBackColor = true;
@@ -69,9 +71,10 @@
 			// 
 			// btnRectangle
 			// 
-			this.btnRectangle.Location = new System.Drawing.Point(272, 28);
+			this.btnRectangle.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnRectangle.Location = new System.Drawing.Point(12, 124);
 			this.btnRectangle.Name = "btnRectangle";
-			this.btnRectangle.Size = new System.Drawing.Size(75, 23);
+			this.btnRectangle.Size = new System.Drawing.Size(75, 50);
 			this.btnRectangle.TabIndex = 3;
 			this.btnRectangle.Text = "Rectangle";
 			this.btnRectangle.UseVisualStyleBackColor = true;
@@ -79,9 +82,10 @@
 			// 
 			// btnTreangle
 			// 
-			this.btnTreangle.Location = new System.Drawing.Point(382, 28);
+			this.btnTreangle.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnTreangle.Location = new System.Drawing.Point(12, 180);
 			this.btnTreangle.Name = "btnTreangle";
-			this.btnTreangle.Size = new System.Drawing.Size(75, 23);
+			this.btnTreangle.Size = new System.Drawing.Size(75, 50);
 			this.btnTreangle.TabIndex = 4;
 			this.btnTreangle.Text = "Treangle";
 			this.btnTreangle.UseVisualStyleBackColor = true;
@@ -91,14 +95,18 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(746, 444);
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.ClientSize = new System.Drawing.Size(995, 607);
 			this.Controls.Add(this.btnTreangle);
 			this.Controls.Add(this.btnRectangle);
 			this.Controls.Add(this.btnLine);
 			this.Controls.Add(this.btnCircle);
 			this.Controls.Add(this.pictureBox);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
 			this.Name = "MainForm";
-			this.Text = "Form1";
+			this.RightToLeftLayout = true;
+			this.Text = "PaintKiller";
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
 			this.ResumeLayout(false);
 

@@ -63,6 +63,11 @@ namespace OOP_PaintKiller
 
 		private void pictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
+			if (chosenFigure == null)
+			{
+				MessageBox.Show("Figure was not chosen!", "Warning");
+				return;
+			}
 			startPoint.X = e.X;
 			startPoint.Y = e.Y;
 		}
