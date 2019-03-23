@@ -7,12 +7,21 @@ namespace OOP_PaintKiller
 {
 	public partial class MainForm : Form
 	{
+		delegateFigure[] delgFigure = new delegateFigure[]
+		{
+			LineCreator,
+			EllipseCreator,
+			RectangleCreator,
+			TreangleCreator
+		};
+
 		List<Figure> listOfFigures = new List<Figure> { };
-		Bitmap bmp;
-		Graphics grph;
+		Bitmap bmp;	Graphics grph;
 		Pen pen;
-		Point startPoint, endPoint;
+		Point startPoint, currPoint, endPoint;
+		int currFigureIndex = 0;
 		Figure chosenFigure;
+		bool isMouseDown = false;
 
 		public MainForm()
 		{
@@ -23,8 +32,9 @@ namespace OOP_PaintKiller
 		private void InitializeGrph()
 		{			 
 			bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
-			grph = Graphics.FromImage(bmp);	
-			pen = new Pen(Color.Black); 
+			grph = Graphics.FromImage(bmp);
+			pen = new Pen(Color.Black);
+			pen.Width = 3.0F;
 		}
 
 		private void RepaintBMP()
@@ -38,48 +48,99 @@ namespace OOP_PaintKiller
 
 		private void btnLine_Click(object sender, EventArgs e)
 		{
-			Line newLine = new Line();
-			chosenFigure = newLine;
+			//Line newLine = new Line();
+			//chosenFigure = newLine;
+			currFigureIndex = 0;
 		}
 
 		private void btnCircle_Click(object sender, EventArgs e)
 		{
-			Ellipse newCircle = new Ellipse();
-			chosenFigure = newCircle;
+			//Ellipse newCircle = new Ellipse();
+			//chosenFigure = newCircle;
+			currFigureIndex = 1;
 		}
 
 
 		private void btnRectangle_Click(object sender, EventArgs e)
 		{
-			Rectangle newRectangle = new Rectangle();
-			chosenFigure = newRectangle;
+			//Rectangle newRectangle = new Rectangle();
+			//chosenFigure = newRectangle;
+			currFigureIndex = 2;
 		}
 
 		private void btnTreangle_Click(object sender, EventArgs e)
 		{
-			Treangle newTreangle = new Treangle();
-			chosenFigure = newTreangle;
+			//Treangle newTreangle = new Treangle();
+			//chosenFigure = newTreangle;
+			currFigureIndex = 3;
 		}
-
+	
 		private void pictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (chosenFigure == null)
-			{
-				MessageBox.Show("Figure was not chosen!", "Warning");
-				return;
-			}
+			isMouseDown = true;
+
+			chosenFigure = delgFigure[currFigureIndex]();
+
+			listOfFigures.Add(chosenFigure);
+
 			startPoint.X = e.X;
 			startPoint.Y = e.Y;
 		}
 
+		private void pictureBox_MouseMove(object sender, MouseEventArgs e)
+		{
+			currPoint.X = e.X;
+			currPoint.Y = e.Y;
+
+			if (isMouseDown == true)
+			{
+				Figure currFigure = listOfFigures[listOfFigures.Count - 1];
+				currFigure.SetCoord(startPoint.X, startPoint.Y, currPoint.X, currPoint.Y);
+				grph.Clear(Color.White);
+				RepaintBMP();
+			}
+		}
+
 		private void pictureBox_MouseUp(object sender, MouseEventArgs e)
 		{
+			isMouseDown = false;
+
 			endPoint.X = e.X;
 			endPoint.Y = e.Y;
 
 			chosenFigure.SetCoord(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y);
-			listOfFigures.Add(chosenFigure);
 			RepaintBMP();
+		}
+		
+		private void btnClear_Click(object sender, EventArgs e)
+		{
+			listOfFigures.Clear();
+			grph.Clear(Color.White);
+			RepaintBMP();
+		}
+
+		// Delegate
+		delegate Figure delegateFigure();
+
+		// Figures creators
+		private static Figure LineCreator()
+		{
+			return new Line();
+		}
+
+		private static Figure EllipseCreator()
+		{
+			return new Ellipse();
+		}
+
+		private static Figure RectangleCreator()
+		{
+			return new Rectangle();
+		}
+
+		private static Figure TreangleCreator()
+		{
+			return new Treangle();
 		}
 	}
 }

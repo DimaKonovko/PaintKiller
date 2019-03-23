@@ -33,6 +33,7 @@
 			this.btnLine = new System.Windows.Forms.Button();
 			this.btnRectangle = new System.Windows.Forms.Button();
 			this.btnTreangle = new System.Windows.Forms.Button();
+			this.btnClear = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -45,6 +46,7 @@
 			this.pictureBox.TabIndex = 0;
 			this.pictureBox.TabStop = false;
 			this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+			this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
 			this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
 			// 
 			// btnCircle
@@ -91,12 +93,23 @@
 			this.btnTreangle.UseVisualStyleBackColor = true;
 			this.btnTreangle.Click += new System.EventHandler(this.btnTreangle_Click);
 			// 
+			// btnClear
+			// 
+			this.btnClear.Location = new System.Drawing.Point(12, 556);
+			this.btnClear.Name = "btnClear";
+			this.btnClear.Size = new System.Drawing.Size(75, 23);
+			this.btnClear.TabIndex = 5;
+			this.btnClear.Text = "Clear";
+			this.btnClear.UseVisualStyleBackColor = true;
+			this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.ClientSize = new System.Drawing.Size(995, 607);
+			this.Controls.Add(this.btnClear);
 			this.Controls.Add(this.btnTreangle);
 			this.Controls.Add(this.btnRectangle);
 			this.Controls.Add(this.btnLine);
@@ -119,6 +132,7 @@
 		private System.Windows.Forms.Button btnLine;
 		private System.Windows.Forms.Button btnRectangle;
 		private System.Windows.Forms.Button btnTreangle;
+		private System.Windows.Forms.Button btnClear;
 	}
 }
 
