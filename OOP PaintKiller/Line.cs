@@ -8,9 +8,7 @@ namespace OOP_PaintKiller
 		public int LeftY { set; get; }
 		public int RightX { set; get; }
 		public int RightY { set; get; }
-
-		public Line() { }
-
+		
 		public override void SetCoord(int startX, int startY, int endX, int endY)
 		{
 			LeftX = startX;

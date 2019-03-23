@@ -7,6 +7,30 @@ namespace OOP_PaintKiller
 {
 	public partial class MainForm : Form
 	{
+		// Delegate
+		delegate Figure delegateFigure();
+
+		// Figures creators
+		private static Figure LineCreator()
+		{
+			return new Line();
+		}
+
+		private static Figure EllipseCreator()
+		{
+			return new Ellipse();
+		}
+
+		private static Figure RectangleCreator()
+		{
+			return new Rectangle();
+		}
+
+		private static Figure TreangleCreator()
+		{
+			return new Treangle();
+		}
+
 		delegateFigure[] delgFigure = new delegateFigure[]
 		{
 			LineCreator,
@@ -15,13 +39,14 @@ namespace OOP_PaintKiller
 			TreangleCreator
 		};
 
-		List<Figure> listOfFigures = new List<Figure> { };
-		Bitmap bmp;	Graphics grph;
+		List<Figure> listOfFigures = new List<Figure>();
+		Bitmap bmp;
+		Graphics grph;
 		Pen pen;
 		Point startPoint, currPoint, endPoint;
 		int currFigureIndex = 0;
 		Figure chosenFigure;
-		bool isMouseDown = false;
+		bool mouseDown = false;
 
 		public MainForm()
 		{
@@ -48,36 +73,28 @@ namespace OOP_PaintKiller
 
 		private void btnLine_Click(object sender, EventArgs e)
 		{
-			//Line newLine = new Line();
-			//chosenFigure = newLine;
 			currFigureIndex = 0;
 		}
 
 		private void btnCircle_Click(object sender, EventArgs e)
 		{
-			//Ellipse newCircle = new Ellipse();
-			//chosenFigure = newCircle;
 			currFigureIndex = 1;
 		}
 
 
 		private void btnRectangle_Click(object sender, EventArgs e)
 		{
-			//Rectangle newRectangle = new Rectangle();
-			//chosenFigure = newRectangle;
 			currFigureIndex = 2;
 		}
 
 		private void btnTreangle_Click(object sender, EventArgs e)
 		{
-			//Treangle newTreangle = new Treangle();
-			//chosenFigure = newTreangle;
 			currFigureIndex = 3;
 		}
 	
 		private void pictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
-			isMouseDown = true;
+			mouseDown = true;
 
 			chosenFigure = delgFigure[currFigureIndex]();
 
@@ -92,7 +109,7 @@ namespace OOP_PaintKiller
 			currPoint.X = e.X;
 			currPoint.Y = e.Y;
 
-			if (isMouseDown == true)
+			if (mouseDown == true)
 			{
 				Figure currFigure = listOfFigures[listOfFigures.Count - 1];
 				currFigure.SetCoord(startPoint.X, startPoint.Y, currPoint.X, currPoint.Y);
@@ -103,7 +120,7 @@ namespace OOP_PaintKiller
 
 		private void pictureBox_MouseUp(object sender, MouseEventArgs e)
 		{
-			isMouseDown = false;
+			mouseDown = false;
 
 			endPoint.X = e.X;
 			endPoint.Y = e.Y;
@@ -117,30 +134,6 @@ namespace OOP_PaintKiller
 			listOfFigures.Clear();
 			grph.Clear(Color.White);
 			RepaintBMP();
-		}
-
-		// Delegate
-		delegate Figure delegateFigure();
-
-		// Figures creators
-		private static Figure LineCreator()
-		{
-			return new Line();
-		}
-
-		private static Figure EllipseCreator()
-		{
-			return new Ellipse();
-		}
-
-		private static Figure RectangleCreator()
-		{
-			return new Rectangle();
-		}
-
-		private static Figure TreangleCreator()
-		{
-			return new Treangle();
 		}
 	}
 }

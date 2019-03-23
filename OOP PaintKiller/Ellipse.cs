@@ -9,9 +9,7 @@ namespace OOP_PaintKiller
 		public int LeftTopY { set; get; }
 		public int RightBottomX { set; get; }
 		public int RightBottomY { set; get; }
-
-		public Ellipse() { }
-
+		
 		public override void SetCoord(int startX, int startY, int endX, int endY)
 		{
 			LeftTopX = startX;

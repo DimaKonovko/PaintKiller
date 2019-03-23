@@ -10,9 +10,7 @@ namespace OOP_PaintKiller
 		public int TopY { set; get; }
 		public int RightX { set; get; }
 		public int RightY { set; get; }
-
-		public Treangle() { }
-
+		
 		public override void SetCoord(int startX, int startY, int endX, int endY)
 		{
 			LeftX = startX;
