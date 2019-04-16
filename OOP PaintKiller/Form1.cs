@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace OOP_PaintKiller
 {
@@ -134,6 +137,38 @@ namespace OOP_PaintKiller
 			listOfFigures.Clear();
 			grph.Clear(Color.White);
 			RepaintBMP();
+		}
+
+		private void btnSave_Click(object sender, EventArgs e)
+		{
+			string path = "save.txt";
+			StreamWriter file = new StreamWriter(path);
+
+			foreach (Figure fig in listOfFigures)
+			{
+				string textFigure = createTextFigure(fig);
+				file.Write(textFigure);
+			}
+
+			file.Close();
+		}
+
+		private string createTextFigure(Figure fig)
+		{			
+			string textFigure = fig.GetType().Name;
+			Regex regex = new Regex("<.+>");
+			
+			textFigure += " { ";
+			FieldInfo[] fields = fig.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			foreach (FieldInfo field in fields)
+			{				
+				textFigure += regex.Match(field.Name) + ":" + field.GetValue(fig) + " ";
+			}
+			textFigure += "}\n";
+			textFigure = textFigure.Replace("<", "");
+			textFigure = textFigure.Replace(">", "");
+
+			return textFigure;
 		}
 	}
 }

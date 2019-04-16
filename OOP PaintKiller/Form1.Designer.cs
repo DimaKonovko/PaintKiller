@@ -34,6 +34,7 @@
 			this.btnRectangle = new System.Windows.Forms.Button();
 			this.btnTreangle = new System.Windows.Forms.Button();
 			this.btnClear = new System.Windows.Forms.Button();
+			this.btnSave = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -103,12 +104,23 @@
 			this.btnClear.UseVisualStyleBackColor = true;
 			this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
 			// 
+			// btnSave
+			// 
+			this.btnSave.Location = new System.Drawing.Point(12, 340);
+			this.btnSave.Name = "btnSave";
+			this.btnSave.Size = new System.Drawing.Size(75, 23);
+			this.btnSave.TabIndex = 6;
+			this.btnSave.Text = "Save";
+			this.btnSave.UseVisualStyleBackColor = true;
+			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.ClientSize = new System.Drawing.Size(995, 607);
+			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.btnClear);
 			this.Controls.Add(this.btnTreangle);
 			this.Controls.Add(this.btnRectangle);
@@ -133,6 +145,7 @@
 		private System.Windows.Forms.Button btnRectangle;
 		private System.Windows.Forms.Button btnTreangle;
 		private System.Windows.Forms.Button btnClear;
+		private System.Windows.Forms.Button btnSave;
 	}
 }
 
