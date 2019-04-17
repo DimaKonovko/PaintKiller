@@ -21,6 +21,16 @@ namespace OOP_PaintKiller
 			RightY = endY;
 		}
 
+		public override void SetCoord(int[] fields)
+		{
+			LeftX = fields[0];
+			LeftY = fields[1];
+			TopX = fields[2];
+			TopY = fields[3];
+			RightX = fields[4];
+			RightY = fields[5];
+		}
+
 		public override void Draw(Graphics grph, Pen pen)
 		{
 			grph.DrawLine(pen, LeftX, LeftY, TopX, TopY);

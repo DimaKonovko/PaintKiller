@@ -17,6 +17,14 @@ namespace OOP_PaintKiller
 			RightBottomY = endY;
 		}
 
+		public override void SetCoord(int[] fields)
+		{
+			LeftTopX = fields[0];
+			LeftTopY = fields[1];
+			RightBottomX = fields[2];
+			RightBottomY = fields[3];
+		}
+
 		public override void Draw(Graphics grph, Pen pen)
 		{
 			grph.DrawRectangle(pen, LeftTopX, LeftTopY, RightBottomX - LeftTopX, RightBottomY - LeftTopY);

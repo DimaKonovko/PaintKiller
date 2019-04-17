@@ -4,21 +4,19 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
-using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace OOP_PaintKiller
 {
 	public partial class MainForm : Form
 	{
-		// Delegate
 		delegate Figure delegateFigure();
 
-		// Figures creators
 		private static Figure LineCreator()
-		{
+		{	
 			return new Line();
 		}
-
+		
 		private static Figure EllipseCreator()
 		{
 			return new Ellipse();
@@ -152,23 +150,73 @@ namespace OOP_PaintKiller
 
 			file.Close();
 		}
-
+		
 		private string createTextFigure(Figure fig)
-		{			
+		{
 			string textFigure = fig.GetType().Name;
-			Regex regex = new Regex("<.+>");
-			
-			textFigure += " { ";
-			FieldInfo[] fields = fig.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-			foreach (FieldInfo field in fields)
-			{				
-				textFigure += regex.Match(field.Name) + ":" + field.GetValue(fig) + " ";
+
+			textFigure += " | ";
+			PropertyInfo[] fields = fig.GetType().GetProperties();
+			foreach (PropertyInfo field in fields)
+			{
+				textFigure += field.Name + ":" + field.GetValue(fig) + " ";
 			}
-			textFigure += "}\n";
-			textFigure = textFigure.Replace("<", "");
-			textFigure = textFigure.Replace(">", "");
+			textFigure += "\n";
 
 			return textFigure;
+		}
+
+		private void btnLoad_Click(object sender, EventArgs e)
+		{
+			listOfFigures.Clear();
+			grph.Clear(Color.White);
+
+			string line, className;
+			int[] fields;
+			
+			StreamReader file = new StreamReader("save.txt");
+			while ((line = file.ReadLine()) != null)
+			{
+				if (String.IsNullOrEmpty(line)) { continue; }
+
+				className = line.Split('|').First().Trim();
+				fields = parseFields(line.Split('|').Last().Trim());
+				if (fields == null) { continue; }
+
+				Figure figure = createFigure(className, fields);
+				if (figure != null) { listOfFigures.Add(figure); } else { continue; }
+			}
+			file.Close();
+			RepaintBMP();
+		}
+
+		private int[] parseFields(string line)
+		{
+			List<int> intFields = new List<int>();
+			string[] textFields = line.Split(' ');
+
+			for (int i = 0; i < textFields.Count(); i++)
+			{
+				textFields[i] = textFields[i].Split(':').Last();
+				if (Int32.TryParse(textFields[i], out int result)) { intFields.Add(result); } else { return null; }
+			}
+			
+			return intFields.ToArray();
+		}
+
+		private Figure createFigure(string className, int[] fields)
+		{
+			className = className + "Creator";
+			for (int i = 0; i < delgFigure.Count(); i++)
+			{
+				if (delgFigure[i].Method.Name == className)
+				{
+					Figure loadedFigure = delgFigure[i]();
+					loadedFigure.SetCoord(fields);
+					return loadedFigure;
+				}
+			}
+			return null;
 		}
 	}
 }
