@@ -10,13 +10,11 @@ namespace OOP_PaintKiller
 {
 	public partial class MainForm : Form
 	{
-		delegate Figure delegateFigure();
-
 		private static Figure LineCreator()
-		{	
+		{
 			return new Line();
 		}
-		
+
 		private static Figure EllipseCreator()
 		{
 			return new Ellipse();
@@ -31,6 +29,8 @@ namespace OOP_PaintKiller
 		{
 			return new Treangle();
 		}
+
+		delegate Figure delegateFigure();
 
 		delegateFigure[] delgFigure = new delegateFigure[]
 		{
@@ -56,7 +56,7 @@ namespace OOP_PaintKiller
 		}
 
 		private void InitializeGrph()
-		{			 
+		{
 			bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
 			grph = Graphics.FromImage(bmp);
 			pen = new Pen(Color.Black);
@@ -92,7 +92,7 @@ namespace OOP_PaintKiller
 		{
 			currFigureIndex = 3;
 		}
-	
+
 		private void pictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
 			mouseDown = true;
@@ -129,7 +129,7 @@ namespace OOP_PaintKiller
 			chosenFigure.SetCoord(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y);
 			RepaintBMP();
 		}
-		
+
 		private void btnClear_Click(object sender, EventArgs e)
 		{
 			listOfFigures.Clear();
@@ -139,8 +139,11 @@ namespace OOP_PaintKiller
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
-			string path = "save.txt";
-			StreamWriter file = new StreamWriter(path);
+			SaveFileDialog dialog = new SaveFileDialog();
+			if (dialog.ShowDialog() == DialogResult.Cancel) { return; }
+			string filePath = dialog.FileName;
+
+			StreamWriter file = new StreamWriter(filePath);
 
 			foreach (Figure fig in listOfFigures)
 			{
@@ -150,7 +153,7 @@ namespace OOP_PaintKiller
 
 			file.Close();
 		}
-		
+
 		private string createTextFigure(Figure fig)
 		{
 			string textFigure = fig.GetType().Name;
@@ -168,13 +171,17 @@ namespace OOP_PaintKiller
 
 		private void btnLoad_Click(object sender, EventArgs e)
 		{
+			OpenFileDialog dialog = new OpenFileDialog();
+			if (dialog.ShowDialog() == DialogResult.Cancel) { return; }
+			string filePath = dialog.FileName;
+
 			listOfFigures.Clear();
 			grph.Clear(Color.White);
 
 			string line, className;
 			int[] fields;
-			
-			StreamReader file = new StreamReader("save.txt");
+
+			StreamReader file = new StreamReader(filePath);
 			while ((line = file.ReadLine()) != null)
 			{
 				if (String.IsNullOrEmpty(line)) { continue; }
@@ -200,7 +207,7 @@ namespace OOP_PaintKiller
 				textFields[i] = textFields[i].Split(':').Last();
 				if (Int32.TryParse(textFields[i], out int result)) { intFields.Add(result); } else { return null; }
 			}
-			
+
 			return intFields.ToArray();
 		}
 
