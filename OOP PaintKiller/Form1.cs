@@ -121,7 +121,7 @@ namespace OOP_PaintKiller
 
 		private void pictureBox_MouseUp(object sender, MouseEventArgs e)
 		{
-			mouseDown = false;
+			if (mouseDown) { mouseDown = false; } else { return; }
 
 			endPoint.X = e.X;
 			endPoint.Y = e.Y;
