@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System;
 
 namespace OOP_PaintKiller
 {
@@ -27,7 +28,20 @@ namespace OOP_PaintKiller
 
 		public override void Draw(Graphics grph, Pen pen)
 		{
-			grph.DrawRectangle(pen, LeftTopX, LeftTopY, RightBottomX - LeftTopX, RightBottomY - LeftTopY);
+			int temp;
+			if (RightBottomX < LeftTopX)
+			{
+				temp = LeftTopX;
+				LeftTopX = RightBottomX;
+				RightBottomX = temp;
+			}
+			if (RightBottomY < LeftTopY)
+			{
+				temp = LeftTopY;
+				LeftTopY = RightBottomY;
+				RightBottomY = temp;
+			}
+			grph.DrawRectangle(pen, LeftTopX, LeftTopY, Math.Abs(RightBottomX - LeftTopX), Math.Abs(RightBottomY - LeftTopY));
 		}
 	}
 }
