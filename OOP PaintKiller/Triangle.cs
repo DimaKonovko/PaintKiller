@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 
-namespace OOP_PaintKiller
+namespace Figures
 {
-	class Triangle : Figure
+	class TriangleKiller : Figure
 	{
 		public int LeftX { set; get; }
 		public int LeftY { set; get; }

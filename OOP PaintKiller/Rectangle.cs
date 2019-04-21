@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using System;
 
-namespace OOP_PaintKiller
+namespace Figures
 {
-	class Rectangle : Figure
+	class RectangleKiller : Figure
 	{
 		public int LeftTopX { set; get; }
 		public int LeftTopY { set; get; }

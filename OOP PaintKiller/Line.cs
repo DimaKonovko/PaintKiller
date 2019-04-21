@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 
-namespace OOP_PaintKiller
+namespace Figures
 {
-	class Line : Figure
+	class LineKiller : Figure
 	{
 		public int LeftX { set; get; }
 		public int LeftY { set; get; }

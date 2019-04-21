@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
 
-namespace OOP_PaintKiller
+namespace Figures
 {
-	class Ellipse : Figure
+	class EllipseKiller : Figure
 	{
 		public int LeftTopX { set; get; }
 		public int LeftTopY { set; get; }
