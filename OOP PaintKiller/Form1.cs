@@ -1,53 +1,20 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Linq;
 using Figures;
 
 namespace OOP_PaintKiller
 {
 	public partial class MainForm : Form
 	{
-		private static Figure LineKillerCreator()
-		{
-			return new LineKiller();
-		}
-
-		private static Figure EllipseKillerCreator()
-		{
-			return new EllipseKiller();
-		}
-
-		private static Figure RectangleKillerCreator()
-		{
-			return new RectangleKiller();
-		}
-
-		private static Figure TriangleKillerCreator()
-		{
-			return new TriangleKiller();
-		}
-
-		delegate Figure delegateFigure();
-
-		delegateFigure[] delgFigure = new delegateFigure[]
-		{
-			LineKillerCreator,
-			EllipseKillerCreator,
-			RectangleKillerCreator,
-			TriangleKillerCreator
-		};
-
-		List<Figure> listOfFigures = new List<Figure>();
 		Bitmap bmp;
 		Graphics grph;
 		Pen pen;
 		Point startPoint, currPoint, endPoint;
+
 		int currFigureIndex = 0;
-		Figure chosenFigure;
 		bool mouseDown = false;
+		FiguresController controller = new FiguresController();
 
 		public MainForm()
 		{
@@ -65,7 +32,7 @@ namespace OOP_PaintKiller
 
 		private void RepaintBMP()
 		{
-			foreach (Figure fig in listOfFigures)
+			foreach (Figure fig in controller.Figures)
 			{
 				fig.Draw(grph, pen);
 			}
@@ -97,9 +64,7 @@ namespace OOP_PaintKiller
 		{
 			mouseDown = true;
 
-			chosenFigure = delgFigure[currFigureIndex]();
-
-			listOfFigures.Add(chosenFigure);
+			controller.NewFigure(currFigureIndex);
 
 			startPoint.X = e.X;
 			startPoint.Y = e.Y;
@@ -112,8 +77,7 @@ namespace OOP_PaintKiller
 
 			if (mouseDown == true)
 			{
-				Figure currFigure = listOfFigures[listOfFigures.Count - 1];
-				currFigure.SetCoord(startPoint.X, startPoint.Y, currPoint.X, currPoint.Y);
+				controller.LastFigure().SetCoord(startPoint.X, startPoint.Y, currPoint.X, currPoint.Y);
 				grph.Clear(Color.White);
 				RepaintBMP();
 			}
@@ -126,13 +90,13 @@ namespace OOP_PaintKiller
 			endPoint.X = e.X;
 			endPoint.Y = e.Y;
 
-			chosenFigure.SetCoord(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y);
+			controller.LastFigure().SetCoord(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y);
 			RepaintBMP();
 		}
 
 		private void btnClear_Click(object sender, EventArgs e)
 		{
-			listOfFigures.Clear();
+			controller.ClearFigures();
 			grph.Clear(Color.White);
 			RepaintBMP();
 		}
@@ -141,72 +105,21 @@ namespace OOP_PaintKiller
 		{
 			SaveFileDialog dialog = new SaveFileDialog();
 			if (dialog.ShowDialog() == DialogResult.Cancel) { return; }
-			string filePath = dialog.FileName;
+			string pathToFile = dialog.FileName;
 
-			using (StreamWriter file = File.CreateText(filePath))
-			{
-				foreach (Figure fig in listOfFigures)
-				{
-					file.Write(fig.ToText());
-				}
-			}
+			controller.Save(controller.Figures, pathToFile);
 		}
 		
 		private void btnLoad_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog dialog = new OpenFileDialog();
 			if (dialog.ShowDialog() == DialogResult.Cancel) { return; }
-			string filePath = dialog.FileName;
+			string pathToFile = dialog.FileName;
 
-			listOfFigures.Clear();
+			controller.Load(pathToFile);
+
 			grph.Clear(Color.White);
-
-			string line, className;
-			int[] fields;
-
-			StreamReader file = new StreamReader(filePath);
-			while ((line = file.ReadLine()) != null)
-			{
-				if (String.IsNullOrEmpty(line)) { continue; }
-
-				className = line.Split('|').First().Trim();
-				fields = parseFields(line.Split('|').Last().Trim());
-				if (fields == null) { continue; }
-
-				Figure figure = createFigure(className, fields);
-				if (figure != null) { listOfFigures.Add(figure); } else { continue; }
-			}
-			file.Close();
 			RepaintBMP();
-		}
-
-		private int[] parseFields(string line)
-		{
-			List<int> intFields = new List<int>();
-			string[] textFields = line.Split(' ');
-
-			for (int i = 0; i < textFields.Count(); i++)
-			{
-				textFields[i] = textFields[i].Split(':').Last();
-				if (Int32.TryParse(textFields[i], out int result)) { intFields.Add(result); } else { return null; }
-			}
-
-			return intFields.ToArray();
-		}
-
-		private Figure createFigure(string className, int[] fields)
-		{
-			className = className + "Creator";
-			for (int i = 0; i < delgFigure.Count(); i++)
-			{
-				if (delgFigure[i].Method.Name == className)
-				{
-					Figure loadedFigure = delgFigure[i]();
-					loadedFigure.SetCoord(fields);
-					return loadedFigure;
-				}
-			}
-			return null;
 		}
 	}
 }
