@@ -3,41 +3,41 @@ using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Reflection;
 using System.Linq;
+using Figures;
 
 namespace OOP_PaintKiller
 {
 	public partial class MainForm : Form
 	{
-		private static Figure LineCreator()
+		private static Figure LineKillerCreator()
 		{
-			return new Line();
+			return new LineKiller();
 		}
 
-		private static Figure EllipseCreator()
+		private static Figure EllipseKillerCreator()
 		{
-			return new Ellipse();
+			return new EllipseKiller();
 		}
 
-		private static Figure RectangleCreator()
+		private static Figure RectangleKillerCreator()
 		{
-			return new Rectangle();
+			return new RectangleKiller();
 		}
 
-		private static Figure TriangleCreator()
+		private static Figure TriangleKillerCreator()
 		{
-			return new Triangle();
+			return new TriangleKiller();
 		}
 
 		delegate Figure delegateFigure();
 
 		delegateFigure[] delgFigure = new delegateFigure[]
 		{
-			LineCreator,
-			EllipseCreator,
-			RectangleCreator,
-			TriangleCreator
+			LineKillerCreator,
+			EllipseKillerCreator,
+			RectangleKillerCreator,
+			TriangleKillerCreator
 		};
 
 		List<Figure> listOfFigures = new List<Figure>();
@@ -143,32 +143,15 @@ namespace OOP_PaintKiller
 			if (dialog.ShowDialog() == DialogResult.Cancel) { return; }
 			string filePath = dialog.FileName;
 
-			StreamWriter file = new StreamWriter(filePath);
-
-			foreach (Figure fig in listOfFigures)
+			using (StreamWriter file = File.CreateText(filePath))
 			{
-				string textFigure = createTextFigure(fig);
-				file.Write(textFigure);
+				foreach (Figure fig in listOfFigures)
+				{
+					file.Write(fig.ToText());
+				}
 			}
-
-			file.Close();
 		}
-
-		private string createTextFigure(Figure fig)
-		{
-			string textFigure = fig.GetType().Name;
-
-			textFigure += " | ";
-			PropertyInfo[] fields = fig.GetType().GetProperties();
-			foreach (PropertyInfo field in fields)
-			{
-				textFigure += field.Name + ":" + field.GetValue(fig) + " ";
-			}
-			textFigure += "\n";
-
-			return textFigure;
-		}
-
+		
 		private void btnLoad_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog dialog = new OpenFileDialog();
