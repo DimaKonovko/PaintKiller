@@ -91,7 +91,7 @@
 			this.btnTreangle.Name = "btnTreangle";
 			this.btnTreangle.Size = new System.Drawing.Size(75, 50);
 			this.btnTreangle.TabIndex = 4;
-			this.btnTreangle.Text = "Treangle";
+			this.btnTreangle.Text = "Triangle";
 			this.btnTreangle.UseVisualStyleBackColor = true;
 			this.btnTreangle.Click += new System.EventHandler(this.btnTreangle_Click);
 			// 

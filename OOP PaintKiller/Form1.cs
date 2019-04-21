@@ -25,9 +25,9 @@ namespace OOP_PaintKiller
 			return new Rectangle();
 		}
 
-		private static Figure TreangleCreator()
+		private static Figure TriangleCreator()
 		{
-			return new Treangle();
+			return new Triangle();
 		}
 
 		delegate Figure delegateFigure();
@@ -37,7 +37,7 @@ namespace OOP_PaintKiller
 			LineCreator,
 			EllipseCreator,
 			RectangleCreator,
-			TreangleCreator
+			TriangleCreator
 		};
 
 		List<Figure> listOfFigures = new List<Figure>();

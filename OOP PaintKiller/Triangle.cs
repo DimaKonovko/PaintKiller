@@ -2,14 +2,17 @@
 
 namespace OOP_PaintKiller
 {
-	class Treangle : Figure
+	class Triangle : Figure
 	{
 		public int LeftX { set; get; }
 		public int LeftY { set; get; }
 		public int TopX { set; get; }
 		public int TopY { set; get; }
 		public int RightX { set; get; }
-		public int RightY { set; get; }
+
+		private int rightY;
+
+		public int RightY { set { rightY = value; } get { return rightY; } }
 		
 		public override void SetCoord(int startX, int startY, int endX, int endY)
 		{
