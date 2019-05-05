@@ -5,27 +5,27 @@ namespace Figures
 {
 	public class LineKiller : Figure
 	{
-		public int LeftX { set; get; }
-		public int LeftY { set; get; }
+		public int LeftX  { set; get; }
+		public int LeftY  { set; get; }
 		public int RightX { set; get; }
 		public int RightY { set; get; }
 
 
 
-		public override void SetCoord(int startX, int startY, int endX, int endY)
+		public override void SetCoord(Point start, Point end)
 		{
-			LeftX = startX;
-			LeftY = startY;
-			RightX = endX;
-			RightY = endY;
+			LeftX  = start.X;
+			LeftY  = start.Y;
+			RightX = end.X;
+			RightY = end.Y;
 		}
 
 
 
 		public override void SetCoord(int[] fields)
 		{
-			LeftX = fields[0];
-			LeftY = fields[1];
+			LeftX  = fields[0];
+			LeftY  = fields[1];
 			RightX = fields[2];
 			RightY = fields[3];
 		}

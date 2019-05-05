@@ -5,33 +5,33 @@ namespace Figures
 {
 	public class TriangleKiller : Figure
 	{
-		public int LeftX { set; get; }
-		public int LeftY { set; get; }
-		public int TopX { set; get; }
-		public int TopY { set; get; }
+		public int LeftX  { set; get; }
+		public int LeftY  { set; get; }
+		public int TopX   { set; get; }
+		public int TopY   { set; get; }
 		public int RightX { set; get; }
 		public int RightY { set; get; }
 		
 
 
-		public override void SetCoord(int startX, int startY, int endX, int endY)
+		public override void SetCoord(Point start, Point end)
 		{
-			LeftX = startX;
-			LeftY = endY;
-			TopX =  startX + (endX - startX) / 2;
-			TopY = startY;
-			RightX = endX;
-			RightY = endY;
+			LeftX  = start.X;
+			LeftY  = end.Y;
+			TopX   = start.X + (end.X - start.X) / 2;
+			TopY   = start.Y;
+			RightX = end.X;
+			RightY = end.Y;
 		}
 
 
 
 		public override void SetCoord(int[] fields)
 		{
-			LeftX = fields[0];
-			LeftY = fields[1];
-			TopX = fields[2];
-			TopY = fields[3];
+			LeftX  = fields[0];
+			LeftY  = fields[1];
+			TopX   = fields[2];
+			TopY   = fields[3];
 			RightX = fields[4];
 			RightY = fields[5];
 		}

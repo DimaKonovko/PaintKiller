@@ -6,27 +6,27 @@ namespace Figures
 {
 	public class RectangleKiller : Figure
 	{
-		public int LeftTopX { set; get; }
-		public int LeftTopY { set; get; }
+		public int LeftTopX     { set; get; }
+		public int LeftTopY     { set; get; }
 		public int RightBottomX { set; get; }
 		public int RightBottomY { set; get; }
 	
 
 
-		public override void SetCoord(int startX, int startY, int endX, int endY)
+		public override void SetCoord(Point start, Point end)
 		{
-			LeftTopX = startX;
-			LeftTopY = startY;
-			RightBottomX = endX;
-			RightBottomY = endY;
+			LeftTopX     = start.X;
+			LeftTopY     = start.Y;
+			RightBottomX = end.X;
+			RightBottomY = end.Y;
 		} 
 
 
 
 		public override void SetCoord(int[] fields)
 		{
-			LeftTopX = fields[0];
-			LeftTopY = fields[1];
+			LeftTopX     = fields[0];
+			LeftTopY     = fields[1];
 			RightBottomX = fields[2];
 			RightBottomY = fields[3];
 		}

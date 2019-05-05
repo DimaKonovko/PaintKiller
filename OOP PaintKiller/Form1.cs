@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
-using BaseFigure;
 using System.Reflection;
 using System.Linq;
 
@@ -11,20 +9,20 @@ namespace OOP_PaintKiller
 {
 	public partial class MainForm : Form
 	{
-		Bitmap bmp;
-		Graphics grph;
-		Pen pen;
-		Point startPoint, currPoint, endPoint;
 		bool mouseDown = false;
+
+		DrawingController drawingController = new DrawingController();
 		FiguresController figuresController = new FiguresController();
-		List<string> dllNames = new List<string> { "Figures.dll" };
+
 		List<Type> figuresTypes = new List<Type>();
+		List<string> dllNames   = new List<string> { "Figures.dll" };
+
 
 
 		public MainForm()
 		{
 			InitializeComponent();
-			InitializeGrph();
+			drawingController.InitializeGraphics(pictureBox.Width, pictureBox.Height);
 			LoadPlugins();
 		}
 
@@ -48,28 +46,7 @@ namespace OOP_PaintKiller
 			}
 		}
 
-
-
-		private void InitializeGrph()
-		{
-			bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
-			grph = Graphics.FromImage(bmp);
-			pen = new Pen(Color.Black);
-			pen.Width = 3.0F;
-		}
-
-
-
-		private void RepaintBMP()
-		{
-			foreach (Figure fig in figuresController.Figures)
-			{
-				fig.Draw(grph, pen);
-			}
-			pictureBox.Image = bmp;
-		}
-
-
+			   		 
 
 		private void pictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
@@ -81,36 +58,30 @@ namespace OOP_PaintKiller
 				figuresController.NewFigure(figType);
 			}
 
-			startPoint.X = e.X;
-			startPoint.Y = e.Y;
+			drawingController.SaveStartPoint(e.X, e.Y);
 		}
 
 
 
 		private void pictureBox_MouseMove(object sender, MouseEventArgs e)
 		{
-			currPoint.X = e.X;
-			currPoint.Y = e.Y;
-
-			if (mouseDown == true)
-			{
-				figuresController.LastFigure().SetCoord(startPoint.X, startPoint.Y, currPoint.X, currPoint.Y);
-				grph.Clear(Color.White);
-				RepaintBMP();
-			}
+			if (!mouseDown) { return; }
+		
+			drawingController.SaveEndPoint(e.X, e.Y);
+			figuresController.LastFigure().SetCoord(drawingController.startPoint, drawingController.endPoint);
+			pictureBox.Image = drawingController.Redraw(figuresController.Figures);
 		}
 
 
 
 		private void pictureBox_MouseUp(object sender, MouseEventArgs e)
 		{
-			if (mouseDown) { mouseDown = false; } else { return; }
+			if (!mouseDown) { return; }
 
-			endPoint.X = e.X;
-			endPoint.Y = e.Y;
+			mouseDown = false;
 
-			figuresController.LastFigure().SetCoord(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y);
-			RepaintBMP();
+			figuresController.LastFigure().SetCoord(drawingController.startPoint, drawingController.endPoint);
+			pictureBox.Image = drawingController.Redraw(figuresController.Figures);
 		}
 
 
@@ -118,8 +89,7 @@ namespace OOP_PaintKiller
 		private void btnClear_Click(object sender, EventArgs e)
 		{
 			figuresController.ClearFigures();
-			grph.Clear(Color.White);
-			RepaintBMP();
+			pictureBox.Image = drawingController.Redraw(figuresController.Figures);
 		}
 
 
@@ -141,11 +111,9 @@ namespace OOP_PaintKiller
 			if (dialog.ShowDialog() == DialogResult.Cancel) { return; }
 			string pathToFile = dialog.FileName;
 
-			grph.Clear(Color.White);
-
 			figuresController.Load(pathToFile, figuresTypes);
 
-			RepaintBMP();
+			pictureBox.Image = drawingController.Redraw(figuresController.Figures);
 		}
 	}
 }
