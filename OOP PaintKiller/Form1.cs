@@ -1,105 +1,98 @@
 ﻿using System;
-using System.Drawing;
+using System.Collections.Generic;
 using System.Windows.Forms;
-using Figures;
+using System.IO;
+using System.Reflection;
+using System.Linq;
 
 namespace OOP_PaintKiller
 {
 	public partial class MainForm : Form
 	{
-		Bitmap bmp;
-		Graphics grph;
-		Pen pen;
-		Point startPoint, currPoint, endPoint;
-
-		int currFigureIndex = 0;
 		bool mouseDown = false;
-		FiguresController controller = new FiguresController();
+
+		DrawingController drawingController = new DrawingController();
+		FiguresController figuresController = new FiguresController();
+
+		List<Type> figuresTypes = new List<Type>();
+		List<string> dllNames   = new List<string> { "Figures.dll" };
+
+
 
 		public MainForm()
 		{
 			InitializeComponent();
-			InitializeGrph();
+			drawingController.InitializeGraphics(pictureBox.Width, pictureBox.Height);
+			LoadPlugins();
 		}
 
-		private void InitializeGrph()
-		{
-			bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
-			grph = Graphics.FromImage(bmp);
-			pen = new Pen(Color.Black);
-			pen.Width = 3.0F;
-		}
 
-		private void RepaintBMP()
+
+		private void LoadPlugins()
 		{
-			foreach (Figure fig in controller.Figures)
+			string pathToDll = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\lib\\");
+			//string[] dllFiles = Directory.GetFiles(pathToDll, "*.dll");
+			foreach (string dllName in dllNames)
 			{
-				fig.Draw(grph, pen);
+				Assembly asm = Assembly.LoadFrom(pathToDll + dllName);
+				foreach (Type type in asm.GetTypes())
+				{
+					if (type.Namespace == "Figures")
+					{
+						figuresTypes.Add(type);
+						FiguresListBox.Items.Add(type.Name);
+					}
+				}
 			}
-			pictureBox.Image = bmp;
 		}
 
-		private void btnLine_Click(object sender, EventArgs e)
-		{
-			currFigureIndex = 0;
-		}
-
-		private void btnCircle_Click(object sender, EventArgs e)
-		{
-			currFigureIndex = 1;
-		}
-
-
-		private void btnRectangle_Click(object sender, EventArgs e)
-		{
-			currFigureIndex = 2;
-		}
-
-		private void btnTreangle_Click(object sender, EventArgs e)
-		{
-			currFigureIndex = 3;
-		}
+			   		 
 
 		private void pictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
+			if (FiguresListBox.SelectedIndex == -1) { return; }
+
+			Type figType = figuresTypes.ElementAt(FiguresListBox.SelectedIndex);
+			figuresController.NewFigure(figType);
+
 			mouseDown = true;
 
-			controller.NewFigure(currFigureIndex);
-
-			startPoint.X = e.X;
-			startPoint.Y = e.Y;
+			drawingController.SaveStartPoint(e.X, e.Y);
+			drawingController.SaveEndPoint(e.X, e.Y);
 		}
+
+
 
 		private void pictureBox_MouseMove(object sender, MouseEventArgs e)
 		{
-			currPoint.X = e.X;
-			currPoint.Y = e.Y;
-
-			if (mouseDown == true)
-			{
-				controller.LastFigure().SetCoord(startPoint.X, startPoint.Y, currPoint.X, currPoint.Y);
-				grph.Clear(Color.White);
-				RepaintBMP();
-			}
+			if (!mouseDown) { return; }
+		
+			drawingController.SaveEndPoint(e.X, e.Y);
+			figuresController.LastFigure().SetCoord(drawingController.startPoint, drawingController.endPoint);
+			pictureBox.Image = drawingController.Redraw(figuresController.Figures);
 		}
+
+
 
 		private void pictureBox_MouseUp(object sender, MouseEventArgs e)
 		{
-			if (mouseDown) { mouseDown = false; } else { return; }
+			if (!mouseDown) { return; }
 
-			endPoint.X = e.X;
-			endPoint.Y = e.Y;
+			mouseDown = false;
 
-			controller.LastFigure().SetCoord(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y);
-			RepaintBMP();
+			figuresController.LastFigure().SetCoord(drawingController.startPoint, drawingController.endPoint);
+			pictureBox.Image = drawingController.Redraw(figuresController.Figures);
 		}
+
+
 
 		private void btnClear_Click(object sender, EventArgs e)
 		{
-			controller.ClearFigures();
-			grph.Clear(Color.White);
-			RepaintBMP();
+			figuresController.ClearFigures();
+			pictureBox.Image = drawingController.Redraw(figuresController.Figures);
 		}
+
+
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
@@ -107,19 +100,20 @@ namespace OOP_PaintKiller
 			if (dialog.ShowDialog() == DialogResult.Cancel) { return; }
 			string pathToFile = dialog.FileName;
 
-			controller.Save(controller.Figures, pathToFile);
+			figuresController.Save(figuresController.Figures, pathToFile);
 		}
 		
+
+
 		private void btnLoad_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog dialog = new OpenFileDialog();
 			if (dialog.ShowDialog() == DialogResult.Cancel) { return; }
 			string pathToFile = dialog.FileName;
 
-			controller.Load(pathToFile);
+			figuresController.Load(pathToFile, figuresTypes);
 
-			grph.Clear(Color.White);
-			RepaintBMP();
+			pictureBox.Image = drawingController.Redraw(figuresController.Figures);
 		}
 	}
 }

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Linq;
-using Figures;
-using System;
+using BaseFigure;
 
 namespace OOP_PaintKiller
 {
@@ -11,50 +11,29 @@ namespace OOP_PaintKiller
 	{
 		public List<Figure> Figures = new List<Figure>();
 
-		private static Figure LineKillerCreator()
+
+
+		public void NewFigure(Type figType)
 		{
-			return new LineKiller();
+			Figure fig = (Figure)Activator.CreateInstance(figType);
+			this.Figures.Add(fig);
 		}
 
-		private static Figure EllipseKillerCreator()
-		{
-			return new EllipseKiller();
-		}
 
-		private static Figure RectangleKillerCreator()
-		{
-			return new RectangleKiller();
-		}
-
-		private static Figure TriangleKillerCreator()
-		{
-			return new TriangleKiller();
-		}
-
-		delegate Figure delegateFigure();
-
-		delegateFigure[] delgFigure = new delegateFigure[] 
-		{
-			LineKillerCreator,
-			EllipseKillerCreator,
-			RectangleKillerCreator,
-			TriangleKillerCreator
-		};
-
-		public void NewFigure(int index)
-		{
-			this.Figures.Add(delgFigure[index]());
-		}
 
 		public void ClearFigures()
 		{
 			this.Figures.Clear();
 		}
 
+
+
 		public Figure LastFigure()
 		{
 			return this.Figures.Last();
 		}
+
+
 
 		public void Save(List<Figure> listOfFigures, string pathToFile)
 		{
@@ -67,22 +46,12 @@ namespace OOP_PaintKiller
 			}
 		}
 		
-		private string ToText(Figure fig)
-		{
-			string textName = fig.GetType().Name;
-			string textFields = string.Empty;
 
-			PropertyInfo[] fields = fig.GetType().GetProperties();
-			foreach (PropertyInfo field in fields)
-			{
-				textFields += field.Name + ":" + field.GetValue(fig) + " ";
-			}
 
-			return textName + " | " + textFields + "\n";
-		}
-			   	
-		public void Load(string pathToFile)
+		public void Load(string pathToFile, List<Type> figuresTypes)
 		{
+			this.ClearFigures();
+
 			string textFigure, className;
 			string[] textFieldsValues;
 
@@ -96,12 +65,39 @@ namespace OOP_PaintKiller
 					textFieldsValues = parseFields(textFigure.Split('|').Last().Trim());
 					if (textFieldsValues == null) { continue; }
 
-					Figure figure = createFigure(className, textFieldsValues);
-					if (figure != null) { this.Figures.Add(figure); } else { continue; }
+					foreach (Type figType in figuresTypes)
+					{
+						if (figType.Name == className)
+						{
+							Figure loadedFigure = (Figure)Activator.CreateInstance(figType);
+							loadedFigure.SetCoord(Array.ConvertAll(textFieldsValues, int.Parse));
+							this.Figures.Add(loadedFigure);
+							break;
+						}
+					}									
 				}
 			}
+			return;
 		}
-		
+
+
+
+		private string ToText(Figure fig)
+		{
+			string textName = fig.GetType().Name;
+			string textFields = string.Empty;
+
+			PropertyInfo[] fields = fig.GetType().GetProperties();
+			foreach (PropertyInfo field in fields)
+			{
+				textFields += field.Name + ":" + field.GetValue(fig) + " ";
+			}
+
+			return textName + " | " + textFields + "\n";
+		}
+
+
+
 		private string[] parseFields(string line)
 		{
 			List<string> textFieldsValues = new List<string>();
@@ -113,21 +109,6 @@ namespace OOP_PaintKiller
 			}
 
 			return textFieldsValues.ToArray();
-		}
-
-		private Figure createFigure(string className, string[] fields)
-		{
-			className = className + "Creator";
-			for (int i = 0; i < delgFigure.Count(); i++)
-			{
-				if (delgFigure[i].Method.Name == className)
-				{
-					Figure loadedFigure = delgFigure[i]();
-					loadedFigure.SetCoord(Array.ConvertAll(fields, int.Parse));
-					return loadedFigure;
-				}
-			}
-			return null;
 		}
 	}
 }
