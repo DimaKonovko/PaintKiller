@@ -11,21 +11,29 @@ namespace OOP_PaintKiller
 	{
 		public List<Figure> Figures = new List<Figure>();
 
+
+
 		public void NewFigure(Type figType)
 		{
 			Figure fig = (Figure)Activator.CreateInstance(figType);
 			this.Figures.Add(fig);
 		}
 
+
+
 		public void ClearFigures()
 		{
 			this.Figures.Clear();
 		}
 
+
+
 		public Figure LastFigure()
 		{
 			return this.Figures.Last();
 		}
+
+
 
 		public void Save(List<Figure> listOfFigures, string pathToFile)
 		{
@@ -38,22 +46,12 @@ namespace OOP_PaintKiller
 			}
 		}
 		
-		private string ToText(Figure fig)
-		{
-			string textName = fig.GetType().Name;
-			string textFields = string.Empty;
 
-			PropertyInfo[] fields = fig.GetType().GetProperties();
-			foreach (PropertyInfo field in fields)
-			{
-				textFields += field.Name + ":" + field.GetValue(fig) + " ";
-			}
 
-			return textName + " | " + textFields + "\n";
-		}
-			   	
-		public void Load(string pathToFile)
+		public void Load(string pathToFile, List<Type> figuresTypes)
 		{
+			this.ClearFigures();
+
 			string textFigure, className;
 			string[] textFieldsValues;
 
@@ -67,12 +65,39 @@ namespace OOP_PaintKiller
 					textFieldsValues = parseFields(textFigure.Split('|').Last().Trim());
 					if (textFieldsValues == null) { continue; }
 
-					Figure figure = createFigure(className, textFieldsValues);
-					if (figure != null) { this.Figures.Add(figure); } else { continue; }
+					foreach (Type figType in figuresTypes)
+					{
+						if (figType.Name == className)
+						{
+							Figure loadedFigure = (Figure)Activator.CreateInstance(figType);
+							loadedFigure.SetCoord(Array.ConvertAll(textFieldsValues, int.Parse));
+							this.Figures.Add(loadedFigure);
+							break;
+						}
+					}									
 				}
 			}
+			return;
 		}
-		
+
+
+
+		private string ToText(Figure fig)
+		{
+			string textName = fig.GetType().Name;
+			string textFields = string.Empty;
+
+			PropertyInfo[] fields = fig.GetType().GetProperties();
+			foreach (PropertyInfo field in fields)
+			{
+				textFields += field.Name + ":" + field.GetValue(fig) + " ";
+			}
+
+			return textName + " | " + textFields + "\n";
+		}
+
+
+
 		private string[] parseFields(string line)
 		{
 			List<string> textFieldsValues = new List<string>();
@@ -84,21 +109,6 @@ namespace OOP_PaintKiller
 			}
 
 			return textFieldsValues.ToArray();
-		}
-
-		private Figure createFigure(string className, string[] fields)
-		{
-			//className = className + "Creator";
-			//for (int i = 0; i < delgFigure.Count(); i++)
-			//{
-			//	if (delgFigure[i].Method.Name == className)
-			//	{
-			//		Figure loadedFigure = delgFigure[i]();
-			//		loadedFigure.SetCoord(Array.ConvertAll(fields, int.Parse));
-			//		return loadedFigure;
-			//	}
-			//}
-			return null;
 		}
 	}
 }

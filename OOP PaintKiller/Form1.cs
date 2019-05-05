@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.IO;
 using BaseFigure;
 using System.Reflection;
+using System.Linq;
 
 namespace OOP_PaintKiller
 {
@@ -15,8 +16,10 @@ namespace OOP_PaintKiller
 		Pen pen;
 		Point startPoint, currPoint, endPoint;
 		bool mouseDown = false;
-		FiguresController controller = new FiguresController();
+		FiguresController figuresController = new FiguresController();
 		List<string> dllNames = new List<string> { "Figures.dll" };
+		List<Type> figuresTypes = new List<Type>();
+
 
 		public MainForm()
 		{
@@ -24,6 +27,8 @@ namespace OOP_PaintKiller
 			InitializeGrph();
 			LoadPlugins();
 		}
+
+
 
 		private void LoadPlugins()
 		{
@@ -36,11 +41,14 @@ namespace OOP_PaintKiller
 				{
 					if (type.Namespace == "Figures")
 					{
-						FiguresListBox.Items.Add(type);
+						figuresTypes.Add(type);
+						FiguresListBox.Items.Add(type.Name);
 					}
 				}
 			}
 		}
+
+
 
 		private void InitializeGrph()
 		{
@@ -50,14 +58,18 @@ namespace OOP_PaintKiller
 			pen.Width = 3.0F;
 		}
 
+
+
 		private void RepaintBMP()
 		{
-			foreach (Figure fig in controller.Figures)
+			foreach (Figure fig in figuresController.Figures)
 			{
 				fig.Draw(grph, pen);
 			}
 			pictureBox.Image = bmp;
 		}
+
+
 
 		private void pictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
@@ -65,13 +77,15 @@ namespace OOP_PaintKiller
 
 			if (FiguresListBox.SelectedIndex > -1)
 			{
-				Type figType = FiguresListBox.SelectedItem as Type;
-				controller.NewFigure(figType);
+				Type figType = figuresTypes.ElementAt(FiguresListBox.SelectedIndex);
+				figuresController.NewFigure(figType);
 			}
 
 			startPoint.X = e.X;
 			startPoint.Y = e.Y;
 		}
+
+
 
 		private void pictureBox_MouseMove(object sender, MouseEventArgs e)
 		{
@@ -80,11 +94,13 @@ namespace OOP_PaintKiller
 
 			if (mouseDown == true)
 			{
-				controller.LastFigure().SetCoord(startPoint.X, startPoint.Y, currPoint.X, currPoint.Y);
+				figuresController.LastFigure().SetCoord(startPoint.X, startPoint.Y, currPoint.X, currPoint.Y);
 				grph.Clear(Color.White);
 				RepaintBMP();
 			}
 		}
+
+
 
 		private void pictureBox_MouseUp(object sender, MouseEventArgs e)
 		{
@@ -93,16 +109,20 @@ namespace OOP_PaintKiller
 			endPoint.X = e.X;
 			endPoint.Y = e.Y;
 
-			controller.LastFigure().SetCoord(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y);
+			figuresController.LastFigure().SetCoord(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y);
 			RepaintBMP();
 		}
 
+
+
 		private void btnClear_Click(object sender, EventArgs e)
 		{
-			controller.ClearFigures();
+			figuresController.ClearFigures();
 			grph.Clear(Color.White);
 			RepaintBMP();
 		}
+
+
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
@@ -110,18 +130,21 @@ namespace OOP_PaintKiller
 			if (dialog.ShowDialog() == DialogResult.Cancel) { return; }
 			string pathToFile = dialog.FileName;
 
-			controller.Save(controller.Figures, pathToFile);
+			figuresController.Save(figuresController.Figures, pathToFile);
 		}
 		
+
+
 		private void btnLoad_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog dialog = new OpenFileDialog();
 			if (dialog.ShowDialog() == DialogResult.Cancel) { return; }
 			string pathToFile = dialog.FileName;
 
-			controller.Load(pathToFile);
-
 			grph.Clear(Color.White);
+
+			figuresController.Load(pathToFile, figuresTypes);
+
 			RepaintBMP();
 		}
 	}

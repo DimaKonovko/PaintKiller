@@ -12,6 +12,8 @@ namespace Figures
 		public int RightX { set; get; }
 		public int RightY { set; get; }
 		
+
+
 		public override void SetCoord(int startX, int startY, int endX, int endY)
 		{
 			LeftX = startX;
@@ -22,6 +24,8 @@ namespace Figures
 			RightY = endY;
 		}
 
+
+
 		public override void SetCoord(int[] fields)
 		{
 			LeftX = fields[0];
@@ -31,6 +35,8 @@ namespace Figures
 			RightX = fields[4];
 			RightY = fields[5];
 		}
+
+
 
 		public override void Draw(Graphics grph, Pen pen)
 		{
