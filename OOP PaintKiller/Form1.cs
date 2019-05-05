@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Drawing;
+using System.Collections.Generic;
 using System.Windows.Forms;
-using Figures;
+using System.IO;
+using BaseFigure;
+using System.Reflection;
 
 namespace OOP_PaintKiller
 {
@@ -11,15 +14,32 @@ namespace OOP_PaintKiller
 		Graphics grph;
 		Pen pen;
 		Point startPoint, currPoint, endPoint;
-
-		int currFigureIndex = 0;
 		bool mouseDown = false;
 		FiguresController controller = new FiguresController();
+		List<string> dllNames = new List<string> { "Figures.dll" };
 
 		public MainForm()
 		{
 			InitializeComponent();
 			InitializeGrph();
+			LoadPlugins();
+		}
+
+		private void LoadPlugins()
+		{
+			string pathToDll = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\lib\\");
+			//string[] dllFiles = Directory.GetFiles(pathToDll, "*.dll");
+			foreach (string dllName in dllNames)
+			{
+				Assembly asm = Assembly.LoadFrom(pathToDll + dllName);
+				foreach (Type type in asm.GetTypes())
+				{
+					if (type.Namespace == "Figures")
+					{
+						FiguresListBox.Items.Add(type);
+					}
+				}
+			}
 		}
 
 		private void InitializeGrph()
@@ -39,32 +59,15 @@ namespace OOP_PaintKiller
 			pictureBox.Image = bmp;
 		}
 
-		private void btnLine_Click(object sender, EventArgs e)
-		{
-			currFigureIndex = 0;
-		}
-
-		private void btnCircle_Click(object sender, EventArgs e)
-		{
-			currFigureIndex = 1;
-		}
-
-
-		private void btnRectangle_Click(object sender, EventArgs e)
-		{
-			currFigureIndex = 2;
-		}
-
-		private void btnTreangle_Click(object sender, EventArgs e)
-		{
-			currFigureIndex = 3;
-		}
-
 		private void pictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
 			mouseDown = true;
 
-			controller.NewFigure(currFigureIndex);
+			if (FiguresListBox.SelectedIndex > -1)
+			{
+				Type figType = FiguresListBox.SelectedItem as Type;
+				controller.NewFigure(figType);
+			}
 
 			startPoint.X = e.X;
 			startPoint.Y = e.Y;

@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 
-namespace Figures
+namespace BaseFigure
 {
-	abstract class Figure
+	public abstract class Figure
 	{
 		abstract public void SetCoord(int startX, int startY, int endX, int endY);
 		abstract public void SetCoord(int[] fields);

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Linq;
-using Figures;
-using System;
+using BaseFigure;
 
 namespace OOP_PaintKiller
 {
@@ -11,39 +11,10 @@ namespace OOP_PaintKiller
 	{
 		public List<Figure> Figures = new List<Figure>();
 
-		private static Figure LineKillerCreator()
+		public void NewFigure(Type figType)
 		{
-			return new LineKiller();
-		}
-
-		private static Figure EllipseKillerCreator()
-		{
-			return new EllipseKiller();
-		}
-
-		private static Figure RectangleKillerCreator()
-		{
-			return new RectangleKiller();
-		}
-
-		private static Figure TriangleKillerCreator()
-		{
-			return new TriangleKiller();
-		}
-
-		delegate Figure delegateFigure();
-
-		delegateFigure[] delgFigure = new delegateFigure[] 
-		{
-			LineKillerCreator,
-			EllipseKillerCreator,
-			RectangleKillerCreator,
-			TriangleKillerCreator
-		};
-
-		public void NewFigure(int index)
-		{
-			this.Figures.Add(delgFigure[index]());
+			Figure fig = (Figure)Activator.CreateInstance(figType);
+			this.Figures.Add(fig);
 		}
 
 		public void ClearFigures()
@@ -117,16 +88,16 @@ namespace OOP_PaintKiller
 
 		private Figure createFigure(string className, string[] fields)
 		{
-			className = className + "Creator";
-			for (int i = 0; i < delgFigure.Count(); i++)
-			{
-				if (delgFigure[i].Method.Name == className)
-				{
-					Figure loadedFigure = delgFigure[i]();
-					loadedFigure.SetCoord(Array.ConvertAll(fields, int.Parse));
-					return loadedFigure;
-				}
-			}
+			//className = className + "Creator";
+			//for (int i = 0; i < delgFigure.Count(); i++)
+			//{
+			//	if (delgFigure[i].Method.Name == className)
+			//	{
+			//		Figure loadedFigure = delgFigure[i]();
+			//		loadedFigure.SetCoord(Array.ConvertAll(fields, int.Parse));
+			//		return loadedFigure;
+			//	}
+			//}
 			return null;
 		}
 	}

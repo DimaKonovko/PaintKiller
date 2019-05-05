@@ -1,18 +1,23 @@
 ﻿using System.Drawing;
+using BaseFigure;
 
 namespace Figures
 {
-	class LineKiller : Figure
+	public class TriangleKiller : Figure
 	{
 		public int LeftX { set; get; }
 		public int LeftY { set; get; }
+		public int TopX { set; get; }
+		public int TopY { set; get; }
 		public int RightX { set; get; }
 		public int RightY { set; get; }
-
+		
 		public override void SetCoord(int startX, int startY, int endX, int endY)
 		{
 			LeftX = startX;
-			LeftY = startY;
+			LeftY = endY;
+			TopX =  startX + (endX - startX) / 2;
+			TopY = startY;
 			RightX = endX;
 			RightY = endY;
 		}
@@ -21,13 +26,17 @@ namespace Figures
 		{
 			LeftX = fields[0];
 			LeftY = fields[1];
-			RightX = fields[2];
-			RightY = fields[3];
+			TopX = fields[2];
+			TopY = fields[3];
+			RightX = fields[4];
+			RightY = fields[5];
 		}
 
 		public override void Draw(Graphics grph, Pen pen)
 		{
-			grph.DrawLine(pen, LeftX, LeftY, RightX, RightY);
+			grph.DrawLine(pen, LeftX, LeftY, TopX, TopY);
+			grph.DrawLine(pen, TopX, TopY, RightX, RightY);
+			grph.DrawLine(pen, RightX, RightY, LeftX, LeftY);
 		}
 	}
 }

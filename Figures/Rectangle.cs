@@ -1,22 +1,23 @@
 ﻿using System.Drawing;
 using System;
+using BaseFigure;
 
 namespace Figures
 {
-	class RectangleKiller : Figure
+	public class RectangleKiller : Figure
 	{
 		public int LeftTopX { set; get; }
 		public int LeftTopY { set; get; }
 		public int RightBottomX { set; get; }
 		public int RightBottomY { set; get; }
-		
+	
 		public override void SetCoord(int startX, int startY, int endX, int endY)
 		{
 			LeftTopX = startX;
 			LeftTopY = startY;
 			RightBottomX = endX;
 			RightBottomY = endY;
-		}
+		} 
 
 		public override void SetCoord(int[] fields)
 		{
