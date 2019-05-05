@@ -50,15 +50,15 @@ namespace OOP_PaintKiller
 
 		private void pictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
+			if (FiguresListBox.SelectedIndex == -1) { return; }
+
+			Type figType = figuresTypes.ElementAt(FiguresListBox.SelectedIndex);
+			figuresController.NewFigure(figType);
+
 			mouseDown = true;
 
-			if (FiguresListBox.SelectedIndex > -1)
-			{
-				Type figType = figuresTypes.ElementAt(FiguresListBox.SelectedIndex);
-				figuresController.NewFigure(figType);
-			}
-
 			drawingController.SaveStartPoint(e.X, e.Y);
+			drawingController.SaveEndPoint(e.X, e.Y);
 		}
 
 
