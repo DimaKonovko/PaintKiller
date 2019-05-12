@@ -4,7 +4,7 @@ using BaseFigure;
 
 namespace Figures
 {
-	public class RectangleKiller : Figure
+	public class RectangleKiller : Figure, IFigures
 	{
 		public int LeftTopX     { set; get; }
 		public int LeftTopY     { set; get; }

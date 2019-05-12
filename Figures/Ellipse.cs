@@ -3,7 +3,7 @@ using BaseFigure;
 
 namespace Figures
 {
-	public class EllipseKiller : Figure
+	public class EllipseKiller : Figure, IFigures
 	{
 		public int LeftTopX     { set; get; }
 		public int LeftTopY     { set; get; }

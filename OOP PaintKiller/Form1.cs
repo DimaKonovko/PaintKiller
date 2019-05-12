@@ -37,7 +37,7 @@ namespace OOP_PaintKiller
 				Assembly asm = Assembly.LoadFrom(pathToDll + dllName);
 				foreach (Type type in asm.GetTypes())
 				{
-					if (type.Namespace == "Figures")
+					if (type.Namespace == "Figures" && type.GetInterface("IFigures") != null)
 					{
 						figuresTypes.Add(type);
 						FiguresListBox.Items.Add(type.Name);
