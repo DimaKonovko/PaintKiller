@@ -3,7 +3,7 @@ using BaseFigure;
 
 namespace Figures
 {
-	public class TriangleKiller : Figure
+	public class TriangleKiller : Figure, IFigures
 	{
 		public int LeftX  { set; get; }
 		public int LeftY  { set; get; }

@@ -1,6 +1,6 @@
-﻿using BaseFigure;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
+using BaseFigure;
 
 
 namespace OOP_PaintKiller
