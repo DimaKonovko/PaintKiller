@@ -1,0 +1,7 @@
+TriangleKiller | LeftX:48 LeftY:564 TopX:96 TopY:430 RightX:144 RightY:564 
+TriangleKiller | LeftX:129 LeftY:550 TopX:163 TopY:439 RightX:197 RightY:550 
+TriangleKiller | LeftX:218 LeftY:561 TopX:271 TopY:389 RightX:324 RightY:561 
+TriangleKiller | LeftX:342 LeftY:541 TopX:386 TopY:406 RightX:430 RightY:541 
+TriangleKiller | LeftX:478 LeftY:608 TopX:533 TopY:421 RightX:589 RightY:608 
+TriangleKiller | LeftX:617 LeftY:607 TopX:672 TopY:416 RightX:728 RightY:607 
+TriangleKiller | LeftX:758 LeftY:574 TopX:789 TopY:442 RightX:821 RightY:574 

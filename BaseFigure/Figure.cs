@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace BaseFigure
 {
@@ -7,6 +8,8 @@ namespace BaseFigure
 		abstract public void SetCoord(Point startPoint, Point endPoint);
 		abstract public void SetCoord(int[] fields);
 		abstract public void Draw(Graphics grph, Pen pen);
+
+		public virtual void SetList(List<Figure> figures) { }
 	}
 }
  

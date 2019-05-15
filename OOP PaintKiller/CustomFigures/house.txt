@@ -1,0 +1,7 @@
+RectangleKiller | LeftTopX:278 LeftTopY:238 RightBottomX:555 RightBottomY:518 
+RectangleKiller | LeftTopX:332 LeftTopY:283 RightBottomX:382 RightBottomY:368 
+RectangleKiller | LeftTopX:425 LeftTopY:295 RightBottomX:528 RightBottomY:515 
+LineKiller | LeftX:358 LeftY:278 RightX:373 RightY:393 
+LineKiller | LeftX:322 LeftY:317 RightX:379 RightY:319 
+TriangleKiller | LeftX:258 LeftY:235 TopX:414 TopY:18 RightX:571 RightY:235 
+EllipseKiller | LeftTopX:109 LeftTopY:121 RightBottomX:-118 RightBottomY:-69 
