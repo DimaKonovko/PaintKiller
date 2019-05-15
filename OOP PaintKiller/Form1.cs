@@ -11,10 +11,12 @@ namespace OOP_PaintKiller
 	{
 		bool mouseDown = false;
 
-		DrawingController drawingController = new DrawingController();
-		FiguresController figuresController = new FiguresController();
+		DrawingHelper drawingHelper = new DrawingHelper();
+		FiguresHelper figuresHelper = new FiguresHelper();
 
+		Type customFigureType;
 		List<Type> figuresTypes = new List<Type>();
+		List<string> customFiguresNames = new List<string>();
 		List<string> dllNames   = new List<string> { "Figures.dll" };
 
 
@@ -22,8 +24,9 @@ namespace OOP_PaintKiller
 		public MainForm()
 		{
 			InitializeComponent();
-			drawingController.InitializeGraphics(pictureBox.Width, pictureBox.Height);
+			drawingHelper.InitializeGraphics(pictureBox.Width, pictureBox.Height);
 			LoadPlugins();
+			LoadCustomFigures();
 		}
 
 
@@ -37,13 +40,42 @@ namespace OOP_PaintKiller
 				Assembly asm = Assembly.LoadFrom(pathToDll + dllName);
 				foreach (Type type in asm.GetTypes())
 				{
-					if (type.Namespace == "Figures" && type.GetInterface("IFigures") != null)
+					if (type.Namespace == "Figures")
 					{
-						figuresTypes.Add(type);
-						FiguresListBox.Items.Add(type.Name);
+						if (type.GetInterface("IFigure") != null)
+						{
+							figuresTypes.Add(type);
+							FiguresListBox.Items.Add(type.Name);
+						}
+						else if (type.GetInterface("ICustomFigure") != null)
+						{
+							figuresTypes.Add(type);
+							FiguresListBox.Items.Add(type.Name);
+							customFigureType = type;
+						}
 					}
 				}
 			}
+
+		}
+
+
+
+		private void LoadCustomFigures()
+		{
+			string pathToDir = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\CustomFigures\\");
+			string[] fullPath = Directory.GetFiles(pathToDir, "*.txt");
+			// FiguresListBox.Items.Add(Path.GetFileName(customFigureName).Replace(".txt", ""));
+			foreach (string path in fullPath)
+			{
+				string figureName = Path.GetFileName(path).Replace(".txt", "");
+				CustomFiguresListBox.Items.Add(figureName);
+
+				figuresHelper.Load(path, figuresTypes);
+				figuresHelper.CustomFigures.Add(figuresHelper.Figures.ToList());
+				figuresHelper.ClearFigures();
+			}
+
 		}
 
 			   		 
@@ -53,12 +85,21 @@ namespace OOP_PaintKiller
 			if (FiguresListBox.SelectedIndex == -1) { return; }
 
 			Type figType = figuresTypes.ElementAt(FiguresListBox.SelectedIndex);
-			figuresController.NewFigure(figType);
+			if (figType == customFigureType)
+			{
+				if (CustomFiguresListBox.SelectedIndex == -1) { return; }
+				figuresHelper.NewFigure(figType);
+				figuresHelper.LastFigure().SetList(figuresHelper.CustomFigures.ElementAt(CustomFiguresListBox.SelectedIndex));
+			}
+			else
+			{
+				figuresHelper.NewFigure(figType);
+			}
 
 			mouseDown = true;
 
-			drawingController.SaveStartPoint(e.X, e.Y);
-			drawingController.SaveEndPoint(e.X, e.Y);
+			drawingHelper.SaveStartPoint(e.X, e.Y);
+			drawingHelper.SaveEndPoint(e.X, e.Y);
 		}
 
 
@@ -67,9 +108,9 @@ namespace OOP_PaintKiller
 		{
 			if (!mouseDown) { return; }
 		
-			drawingController.SaveEndPoint(e.X, e.Y);
-			figuresController.LastFigure().SetCoord(drawingController.startPoint, drawingController.endPoint);
-			pictureBox.Image = drawingController.Redraw(figuresController.Figures);
+			drawingHelper.SaveEndPoint(e.X, e.Y);
+			figuresHelper.LastFigure().SetCoord(drawingHelper.startPoint, drawingHelper.endPoint);
+			pictureBox.Image = drawingHelper.Redraw(figuresHelper.Figures);
 		}
 
 
@@ -80,16 +121,16 @@ namespace OOP_PaintKiller
 
 			mouseDown = false;
 
-			figuresController.LastFigure().SetCoord(drawingController.startPoint, drawingController.endPoint);
-			pictureBox.Image = drawingController.Redraw(figuresController.Figures);
+			figuresHelper.LastFigure().SetCoord(drawingHelper.startPoint, drawingHelper.endPoint);
+			pictureBox.Image = drawingHelper.Redraw(figuresHelper.Figures);
 		}
 
 
 
 		private void btnClear_Click(object sender, EventArgs e)
 		{
-			figuresController.ClearFigures();
-			pictureBox.Image = drawingController.Redraw(figuresController.Figures);
+			figuresHelper.ClearFigures();
+			pictureBox.Image = drawingHelper.Redraw(figuresHelper.Figures);
 		}
 
 
@@ -100,7 +141,7 @@ namespace OOP_PaintKiller
 			if (dialog.ShowDialog() == DialogResult.Cancel) { return; }
 			string pathToFile = dialog.FileName;
 
-			figuresController.Save(figuresController.Figures, pathToFile);
+			figuresHelper.Save(figuresHelper.Figures, pathToFile);
 		}
 		
 
@@ -111,9 +152,23 @@ namespace OOP_PaintKiller
 			if (dialog.ShowDialog() == DialogResult.Cancel) { return; }
 			string pathToFile = dialog.FileName;
 
-			figuresController.Load(pathToFile, figuresTypes);
+			figuresHelper.Load(pathToFile, figuresTypes);
 
-			pictureBox.Image = drawingController.Redraw(figuresController.Figures);
+			pictureBox.Image = drawingHelper.Redraw(figuresHelper.Figures);
 		}
+
+
+
+		private void SaveCustomFigure_Click(object sender, EventArgs e)
+		{
+			string pathToFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\CustomFigures\\");
+			string fullPath = pathToFile + CustomFigureName.Text + ".txt";
+			figuresHelper.Save(figuresHelper.Figures, fullPath);
+
+			MessageBox.Show("Successfully saved!", "Hint");
+
+			FiguresListBox.Items.Add(Path.GetFileName(fullPath).Replace(".txt", ""));
+		}
+
 	}
 }

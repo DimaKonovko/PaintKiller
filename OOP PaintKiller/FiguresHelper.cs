@@ -7,30 +7,29 @@ using BaseFigure;
 
 namespace OOP_PaintKiller
 {
-	class FiguresController
+	class FiguresHelper
 	{
 		public List<Figure> Figures = new List<Figure>();
-
-
-
+		public List<List<Figure>> CustomFigures = new List<List<Figure>>();
+				
 		public void NewFigure(Type figType)
 		{
 			Figure fig = (Figure)Activator.CreateInstance(figType);
-			this.Figures.Add(fig);
+			Figures.Add(fig);
 		}
 
 
 
 		public void ClearFigures()
 		{
-			this.Figures.Clear();
+			Figures.Clear();
 		}
 
 
 
 		public Figure LastFigure()
 		{
-			return this.Figures.Last();
+			return Figures.Last();
 		}
 
 
@@ -50,7 +49,7 @@ namespace OOP_PaintKiller
 
 		public void Load(string pathToFile, List<Type> figuresTypes)
 		{
-			this.ClearFigures();
+			ClearFigures();
 
 			string textFigure, className;
 			string[] textFieldsValues;
@@ -109,6 +108,6 @@ namespace OOP_PaintKiller
 			}
 
 			return textFieldsValues.ToArray();
-		}
+		}		
 	}
 }

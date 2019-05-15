@@ -1,6 +1,6 @@
 ﻿namespace BaseFigure
 {
-	public interface IFigures
+	public interface IFigure
 	{
 	}
 }

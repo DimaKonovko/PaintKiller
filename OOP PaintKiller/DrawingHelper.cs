@@ -5,7 +5,7 @@ using BaseFigure;
 
 namespace OOP_PaintKiller
 {
-	class DrawingController
+	class DrawingHelper
 	{
 		Bitmap bitmap;
 		Graphics grph;

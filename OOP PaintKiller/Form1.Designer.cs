@@ -33,6 +33,9 @@
 			this.btnSave = new System.Windows.Forms.Button();
 			this.btnLoad = new System.Windows.Forms.Button();
 			this.FiguresListBox = new System.Windows.Forms.ListBox();
+			this.SaveCustomFigure = new System.Windows.Forms.Button();
+			this.CustomFigureName = new System.Windows.Forms.TextBox();
+			this.CustomFiguresListBox = new System.Windows.Forms.ListBox();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -85,8 +88,34 @@
 			this.FiguresListBox.FormattingEnabled = true;
 			this.FiguresListBox.Location = new System.Drawing.Point(12, 12);
 			this.FiguresListBox.Name = "FiguresListBox";
-			this.FiguresListBox.Size = new System.Drawing.Size(105, 132);
+			this.FiguresListBox.Size = new System.Drawing.Size(105, 93);
 			this.FiguresListBox.TabIndex = 8;
+			// 
+			// SaveCustomFigure
+			// 
+			this.SaveCustomFigure.Location = new System.Drawing.Point(12, 219);
+			this.SaveCustomFigure.Name = "SaveCustomFigure";
+			this.SaveCustomFigure.Size = new System.Drawing.Size(105, 23);
+			this.SaveCustomFigure.TabIndex = 9;
+			this.SaveCustomFigure.Text = "Save as Custom";
+			this.SaveCustomFigure.UseVisualStyleBackColor = true;
+			this.SaveCustomFigure.Click += new System.EventHandler(this.SaveCustomFigure_Click);
+			// 
+			// CustomFigureName
+			// 
+			this.CustomFigureName.Location = new System.Drawing.Point(12, 193);
+			this.CustomFigureName.Name = "CustomFigureName";
+			this.CustomFigureName.Size = new System.Drawing.Size(105, 20);
+			this.CustomFigureName.TabIndex = 10;
+			this.CustomFigureName.Text = "CustomFigureNameHere";
+			// 
+			// CustomFiguresListBox
+			// 
+			this.CustomFiguresListBox.FormattingEnabled = true;
+			this.CustomFiguresListBox.Location = new System.Drawing.Point(12, 247);
+			this.CustomFiguresListBox.Name = "CustomFiguresListBox";
+			this.CustomFiguresListBox.Size = new System.Drawing.Size(105, 95);
+			this.CustomFiguresListBox.TabIndex = 11;
 			// 
 			// MainForm
 			// 
@@ -94,6 +123,9 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.ClientSize = new System.Drawing.Size(995, 607);
+			this.Controls.Add(this.CustomFiguresListBox);
+			this.Controls.Add(this.CustomFigureName);
+			this.Controls.Add(this.SaveCustomFigure);
 			this.Controls.Add(this.FiguresListBox);
 			this.Controls.Add(this.btnLoad);
 			this.Controls.Add(this.btnSave);
@@ -106,6 +138,7 @@
 			this.Text = "PaintKiller";
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -116,5 +149,8 @@
 		private System.Windows.Forms.Button btnSave;
 		private System.Windows.Forms.Button btnLoad;
 		private System.Windows.Forms.ListBox FiguresListBox;
+		private System.Windows.Forms.Button SaveCustomFigure;
+		private System.Windows.Forms.TextBox CustomFigureName;
+		private System.Windows.Forms.ListBox CustomFiguresListBox;
 	}
 }
