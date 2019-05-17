@@ -16,7 +16,6 @@ namespace OOP_PaintKiller
 
 		Type customFigureType;
 		List<Type> figuresTypes = new List<Type>();
-		List<string> customFiguresNames = new List<string>();
 		List<string> dllNames   = new List<string> { "Figures.dll" };
 
 
@@ -178,7 +177,12 @@ namespace OOP_PaintKiller
 
 			MessageBox.Show("Successfully saved!", "Hint");
 
-			FiguresListBox.Items.Add(Path.GetFileName(fullPath).Replace(".txt", ""));
+			CustomFiguresListBox.Items.Add(Path.GetFileName(fullPath).Replace(".txt", ""));
+
+			FiguresHelper tempHelper = new FiguresHelper();
+			tempHelper.Load(fullPath, figuresTypes);
+			figuresHelper.CustomFigures.Add(figuresHelper.Figures.ToList());
+			tempHelper.ClearFigures();
 		}
 
 	}
