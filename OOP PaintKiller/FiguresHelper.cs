@@ -15,21 +15,21 @@ namespace OOP_PaintKiller
 		public void NewFigure(Type figType)
 		{
 			Figure fig = (Figure)Activator.CreateInstance(figType);
-			Figures.Add(fig);
+			this.Figures.Add(fig);
 		}
 
 
 
 		public void ClearFigures()
 		{
-			Figures.Clear();
+			this.Figures.Clear();
 		}
 
 
 
 		public Figure LastFigure()
 		{
-			return Figures.Last();
+			return this.Figures.Last();
 		}
 
 
@@ -108,6 +108,14 @@ namespace OOP_PaintKiller
 			}
 
 			return textFieldsValues.ToArray();
-		}		
+		}
+
+
+
+
+		public void SetListToCustom(int index)
+		{
+			this.LastFigure().SetList(this.CustomFigures.ElementAt(index));			
+		}
 	}
 }

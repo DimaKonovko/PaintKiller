@@ -32,6 +32,16 @@ namespace Figures
 
 
 
+		public override void Recalculate(float percentX, float percentY, int pX, int pY)
+		{
+			LeftTopX = (int)(LeftTopX * percentX) + pX;
+			LeftTopY = (int)(LeftTopY * percentY) + pY;
+			RightBottomX = (int)(RightBottomX * percentX) + pX;
+			RightBottomY = (int)(RightBottomY * percentY) + pY;
+		}
+
+
+
 		public override void Draw(Graphics grph, Pen pen)
 		{
 			grph.DrawEllipse(pen, LeftTopX, LeftTopY, RightBottomX - LeftTopX, RightBottomY - LeftTopY);

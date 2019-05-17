@@ -38,6 +38,18 @@ namespace Figures
 
 
 
+		public override void Recalculate(float percentX, float percentY, int pX, int pY)
+		{
+			LeftX  = (int)(LeftX  * percentX) + pX;
+			LeftY  = (int)(LeftY  * percentY) + pY;
+			TopX   = (int)(TopX   * percentX) + pX;
+			TopY   = (int)(TopY   * percentY) + pY;
+			RightX = (int)(RightX * percentX) + pX;
+			RightY = (int)(RightY * percentY) + pY;
+		}
+
+
+
 		public override void Draw(Graphics grph, Pen pen)
 		{
 			grph.DrawLine(pen, LeftX, LeftY, TopX, TopY);
