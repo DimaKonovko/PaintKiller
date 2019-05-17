@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace BaseFigure
+﻿namespace BaseFigure
 {
 	public interface ICustomFigure
 	{

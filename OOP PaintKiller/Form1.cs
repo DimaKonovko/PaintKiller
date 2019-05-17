@@ -65,7 +65,6 @@ namespace OOP_PaintKiller
 		{
 			string pathToDir = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\CustomFigures\\");
 			string[] fullPath = Directory.GetFiles(pathToDir, "*.txt");
-			// FiguresListBox.Items.Add(Path.GetFileName(customFigureName).Replace(".txt", ""));
 			foreach (string path in fullPath)
 			{
 				string figureName = Path.GetFileName(path).Replace(".txt", "");
@@ -88,8 +87,9 @@ namespace OOP_PaintKiller
 			if (figType == customFigureType)
 			{
 				if (CustomFiguresListBox.SelectedIndex == -1) { return; }
+
 				figuresHelper.NewFigure(figType);
-				figuresHelper.LastFigure().SetList(figuresHelper.CustomFigures.ElementAt(CustomFiguresListBox.SelectedIndex));
+				figuresHelper.SetListToCustom(CustomFiguresListBox.SelectedIndex);
 			}
 			else
 			{
@@ -99,7 +99,7 @@ namespace OOP_PaintKiller
 			mouseDown = true;
 
 			drawingHelper.SaveStartPoint(e.X, e.Y);
-			drawingHelper.SaveEndPoint(e.X, e.Y);
+			drawingHelper.SaveEndPoint(e.X + 1, e.Y + 1);
 		}
 
 
@@ -107,8 +107,19 @@ namespace OOP_PaintKiller
 		private void pictureBox_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (!mouseDown) { return; }
-		
+
 			drawingHelper.SaveEndPoint(e.X, e.Y);
+
+			Type figType = figuresTypes.ElementAt(FiguresListBox.SelectedIndex);
+			if (figType == customFigureType)
+			{
+				if (CustomFiguresListBox.SelectedIndex == -1) { return; }
+
+				int width = drawingHelper.endPoint.X - drawingHelper.startPoint.X;
+				int height = drawingHelper.endPoint.Y - drawingHelper.startPoint.Y;
+				figuresHelper.LastFigure().Recalculate((float)((width + 0.1) / pictureBox.Width), (float)((height + 0.1) / pictureBox.Height), drawingHelper.startPoint.X, drawingHelper.startPoint.Y);
+			}
+
 			figuresHelper.LastFigure().SetCoord(drawingHelper.startPoint, drawingHelper.endPoint);
 			pictureBox.Image = drawingHelper.Redraw(figuresHelper.Figures);
 		}
