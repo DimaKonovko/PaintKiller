@@ -1,5 +1,0 @@
-LineKiller | LeftX:247 LeftY:69 RightX:489 RightY:91 
-LineKiller | LeftX:420 LeftY:184 RightX:278 RightY:285 
-RectangleKiller | LeftTopX:112 LeftTopY:157 RightBottomX:323 RightBottomY:245 
-EllipseKiller | LeftTopX:150 LeftTopY:55 RightBottomX:297 RightBottomY:239 
-TriangleKiller | LeftX:191 LeftY:451 TopX:298 TopY:86 RightX:405 RightY:451 
