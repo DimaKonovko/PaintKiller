@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Reflection;
 
 namespace BaseFigure
 {
@@ -21,6 +22,22 @@ namespace BaseFigure
 				copiedList.Add(fig.MyClone());
 			}
 			return copiedList;
+		}
+
+
+
+		public virtual string ToText()
+		{
+			string textName = this.GetType().Name;
+			string textFields = string.Empty;
+
+			PropertyInfo[] fields = this.GetType().GetProperties();
+			foreach (PropertyInfo field in fields)
+			{
+				textFields += field.Name + ":" + field.GetValue(this) + " ";
+			}
+
+			return textName + " | " + textFields + "\n";
 		}
 	}
 }

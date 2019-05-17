@@ -168,7 +168,7 @@ namespace OOP_PaintKiller
 		}
 
 
-
+				
 		private void SaveCustomFigure_Click(object sender, EventArgs e)
 		{
 			string pathToFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\CustomFigures\\");
