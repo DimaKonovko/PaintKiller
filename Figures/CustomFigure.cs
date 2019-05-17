@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
+using System.Reflection;
 using BaseFigure;
 
 namespace Figures
@@ -10,8 +10,6 @@ namespace Figures
 		public List<Figure> Figures { get; set; }
 		private List<Figure> CopiesFigures { get; set; }
 
-
-		public override void SetCoord(Point startPoint, Point endPoint) { }
 
 
 		public override void SetList(List<Figure> figures)
@@ -29,6 +27,19 @@ namespace Figures
 			{
 				fig.Recalculate(percentX, percentY, pX, pY);
 			}
+		}
+
+
+
+		public override string ToText()
+		{
+			string result = string.Empty;
+			foreach(Figure fig in Figures)
+			{
+				
+				result = result + fig.ToText();
+			}
+			return result;
 		}
 
 

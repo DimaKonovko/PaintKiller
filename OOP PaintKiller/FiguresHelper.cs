@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Linq;
 using BaseFigure;
 
@@ -40,7 +39,7 @@ namespace OOP_PaintKiller
 			{
 				foreach (Figure fig in listOfFigures)
 				{
-					file.Write(ToText(fig));
+					file.Write(fig.ToText());
 				}
 			}
 		}
@@ -81,22 +80,6 @@ namespace OOP_PaintKiller
 
 
 
-		private string ToText(Figure fig)
-		{
-			string textName = fig.GetType().Name;
-			string textFields = string.Empty;
-
-			PropertyInfo[] fields = fig.GetType().GetProperties();
-			foreach (PropertyInfo field in fields)
-			{
-				textFields += field.Name + ":" + field.GetValue(fig) + " ";
-			}
-
-			return textName + " | " + textFields + "\n";
-		}
-
-
-
 		private string[] parseFields(string line)
 		{
 			List<string> textFieldsValues = new List<string>();
@@ -109,7 +92,6 @@ namespace OOP_PaintKiller
 
 			return textFieldsValues.ToArray();
 		}
-
 
 
 
