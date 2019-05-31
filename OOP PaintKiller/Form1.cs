@@ -4,6 +4,9 @@ using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
 using System.Linq;
+using System.Xml;
+using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace OOP_PaintKiller
 {
@@ -18,14 +21,58 @@ namespace OOP_PaintKiller
 		List<Type> figuresTypes = new List<Type>();
 		List<string> dllNames   = new List<string> { "Figures.dll" };
 
-
+		XmlDocument xmlDoc;
+		string backColor;
+		
+		string pathToConfig = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\config\\config.xml");
 
 		public MainForm()
 		{
 			InitializeComponent();
 			drawingHelper.InitializeGraphics(pictureBox.Width, pictureBox.Height);
+			LoadSettings();
 			LoadPlugins();
 			LoadCustomFigures();
+		}
+
+
+
+		private void LoadSettings()
+		{
+			xmlDoc = new XmlDocument();
+			try
+			{
+				xmlDoc.Load(pathToConfig);
+				XmlElement root = xmlDoc.DocumentElement;
+				foreach (XmlNode xNode in root)
+				{
+					if (xNode.Name == "background")
+					{
+						backColor = xNode.InnerText;
+						SetBackgroundColor(backColor);
+					}
+				}
+			}
+			catch
+			{
+				MessageBox.Show("Could not use config!", "Error");
+				SetDefaultConfig();
+			}
+		}
+
+
+
+		private void SetBackgroundColor(string color)
+		{
+			string[] parts = color.Split(' ');
+			this.BackColor = Color.FromArgb(Int32.Parse(parts[0]), Int32.Parse(parts[1]), Int32.Parse(parts[2]));
+		}
+
+
+
+		private void SetDefaultConfig()
+		{
+			this.BackColor = Color.FromArgb(255, 17, 103, 17);
 		}
 
 
@@ -36,23 +83,30 @@ namespace OOP_PaintKiller
 			//string[] dllFiles = Directory.GetFiles(pathToDll, "*.dll");
 			foreach (string dllName in dllNames)
 			{
-				Assembly asm = Assembly.LoadFrom(pathToDll + dllName);
-				foreach (Type type in asm.GetTypes())
+				try
 				{
-					if (type.Namespace == "Figures")
+					Assembly asm = Assembly.LoadFrom(pathToDll + dllName);
+					foreach (Type type in asm.GetTypes())
 					{
-						if (type.GetInterface("IFigure") != null)
+						if (type.Namespace == "Figures")
 						{
-							figuresTypes.Add(type);
-							FiguresListBox.Items.Add(type.Name);
-						}
-						else if (type.GetInterface("ICustomFigure") != null)
-						{
-							figuresTypes.Add(type);
-							FiguresListBox.Items.Add(type.Name);
-							customFigureType = type;
+							if (type.GetInterface("IFigure") != null)
+							{
+								figuresTypes.Add(type);
+								FiguresListBox.Items.Add(type.Name);
+							}
+							else if (type.GetInterface("ICustomFigure") != null)
+							{
+								figuresTypes.Add(type);
+								FiguresListBox.Items.Add(type.Name);
+								customFigureType = type;
+							}
 						}
 					}
+				}
+				catch
+				{
+					MessageBox.Show("There are no plugins!", "Hint");
 				}
 			}
 
@@ -168,7 +222,7 @@ namespace OOP_PaintKiller
 		}
 
 
-				
+		
 		private void SaveCustomFigure_Click(object sender, EventArgs e)
 		{
 			string pathToFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\CustomFigures\\");
@@ -185,5 +239,48 @@ namespace OOP_PaintKiller
 			tempHelper.ClearFigures();
 		}
 
+		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			int r, g, b;
+			r = this.BackColor.R;
+			g = this.BackColor.G;
+			b = this.BackColor.B;
+			string colorStr = r.ToString() + ' ' + g.ToString() + ' ' + b.ToString();
+
+			try
+			{
+				XmlElement root = xmlDoc.DocumentElement;
+				foreach (XmlNode xNode in root)
+				{
+					if (xNode.Name == "background")
+					{
+						xNode.InnerText = colorStr;
+					}
+				}
+				xmlDoc.Save(pathToConfig);
+			}
+			catch
+			{
+				MessageBox.Show("Could not save config!", "Error");
+			}
+		}
+
+		private void backColorText_Leave(object sender, EventArgs e)
+		{
+			string color = backColorText.Text;
+			Regex regex = new Regex(@"[0-2]{0,1}[0-5]{0,1}[0-5]{0,1} [0-2]{0,1}[0-5]{0,1}[0-5]{0,1} [0-2]{0,1}[0-5]{0,1}[0-5]{0,1}");
+			if (regex.IsMatch(color))
+			{
+				string[] parts = color.Split(' ');
+				try
+				{
+					this.BackColor = Color.FromArgb(Int32.Parse(parts[0]), Int32.Parse(parts[1]), Int32.Parse(parts[2]));
+				}
+				catch
+				{
+					MessageBox.Show("Uncorrect RGB!", "Error");
+				}
+			}
+		}
 	}
 }

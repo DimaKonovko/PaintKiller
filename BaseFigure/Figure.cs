@@ -11,9 +11,9 @@ namespace BaseFigure
 		public virtual void SetCoord(int[] fields) { }
 		public virtual void SetList(List<Figure> figures) { }
 		public virtual void Recalculate(float percentX, float percentY, int pX, int pY) { }
-		public virtual Figure MyClone() { return (Figure)this.MemberwiseClone(); }
 
-			   
+		public virtual Figure MyClone() { return (Figure)this.MemberwiseClone(); }
+					   
 		public List<Figure> MyCopy(List<Figure> figures)
 		{
 			List<Figure> copiedList = new List<Figure>();

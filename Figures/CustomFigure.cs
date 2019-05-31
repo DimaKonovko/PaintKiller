@@ -35,8 +35,7 @@ namespace Figures
 		{
 			string result = string.Empty;
 			foreach(Figure fig in Figures)
-			{
-				
+			{				
 				result = result + fig.ToText();
 			}
 			return result;

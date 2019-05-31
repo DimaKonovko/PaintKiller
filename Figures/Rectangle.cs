@@ -39,7 +39,7 @@ namespace Figures
 			LeftTopY = (int)(LeftTopY * percentY) + pY;
 			RightBottomX = (int)(RightBottomX * percentX) + pX;
 			RightBottomY = (int)(RightBottomY * percentY) + pY;
-		}
+		 }
 
 
 
